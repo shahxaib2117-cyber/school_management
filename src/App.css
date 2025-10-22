@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Arizonia&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-inter: "Inter", var(--font-sans);
+}
+
+.navbar-bg{
+    background-color: rgba(124, 124, 124, 0.333);
+    backdrop-filter: blur(10px);
+}
+.light-glassmorphism{
+    background-color: rgba(239, 239, 239, 0.333);
+    backdrop-filter: blur(10px);
+}
+::-webkit-scrollbar {
+  display: none;
+}
+
+@theme {
+  /* fonts */
+  --font-display: "Outfit", "sans-serif";
+
+  /* breakpoints */
+  /* --breakpoint-3xl: 1920px; */
+  --breakpoint-s_phone: 319px;
+  --breakpoint-m_phone: 374px;
+  --breakpoint-phone: 424px;
+  --breakpoint-tablet: 767px;
+  --breakpoint-laptop-sm: 900px;
+  --breakpoint-laptop: 1023px;
+  --breakpoint-laptop-lg: 1366px;
+  --breakpoint-desktop: 1439px;
+  --breakpoint-_4kk: 1920px;
+}
