@@ -7,7 +7,8 @@ import { RiHeadphoneFill } from 'react-icons/ri';
 import Modal from '../../commons/Modal';
 import StudentsData from '../dashboardData/StudentsData';
 import StudentsModalContant from '../modal-contants/StudentsModalContant';
-import not_found_img from 'E:/shahzaib/school_management/public/dashboard-imgs/not-found-img.png'
+// import not_found_img from 'E:/shahzaib/school_management/public/dashboard-imgs/not-found-img.png'
+// import not_found_img from '../../../../public/dashboard-imgs/not-found-img.png'
 import StudentDetails from '../details/StudentDetails';
 import { createPortal } from 'react-dom';
 
@@ -209,7 +210,7 @@ const Students = () => {
               {/* child-1 */}
               <div className="mb-10 flex flex-col items-center ">
                 <div className="w-[400px] h-[270px] flex justify-center items-center ">
-                  <img src={not_found_img} className='h-10/10 ' alt="" />
+                  <img src="/dashboard-imgs/not-found-img.png" className='h-10/10 ' alt="" />
                 </div>
                 <p className='text-[25px] font-semibold text-[#4F4F4F]'>No students at this time</p>
                 <p className='text-[15px] font-semibold text-[#4F4F4F]'>students will appear here after they enroll in your school.  </p>
