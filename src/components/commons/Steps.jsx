@@ -1,7 +1,4 @@
 import React, { useState } from 'react'
-import uncompleted_icon from 'E:/shahzaib/school_management/src/assets/un-completed_icon.png'
-import step_icon from 'E:/shahzaib/school_management/src/assets/step_icon.png'
-import checked_icon from 'E:/shahzaib/school_management/src/assets/checked_icon.png'
 
 const Steps = ({ steps }) => {
     const [activeIndex, setActiveIndex] = useState(steps ?? 0);
@@ -12,10 +9,10 @@ const Steps = ({ steps }) => {
      
     let text_color;
     const getStatus = (index) => {
-        if (activeIndex === null) { text_color = false; return <img className='h-full ' src={uncompleted_icon} alt="uncompleted_icon" /> };
-        if (index < activeIndex) { return <img className='h-full ' src={checked_icon} alt="checked_icon" /> };
-        if (index === activeIndex) { text_color = true; return <img className='h-full ' src={step_icon} alt="step_reached" /> };
-        { text_color = false; return <img className='h-full ' src={uncompleted_icon} alt="uncompleted_icon" /> };
+        if (activeIndex === null) { text_color = false; return <img className='h-full ' src="/un-completed_icon.png" alt="uncompleted_icon not found!" /> };
+        if (index < activeIndex) { return <img className='h-full ' src="/checked_icon.png" alt="checked_icon not found!" /> };
+        if (index === activeIndex) { text_color = true; return <img className='h-full ' src="/step_icon.png" alt="step_reached not found!" /> };
+        { text_color = false; return <img className='h-full ' src="/un-completed_icon.png" alt="uncompleted_icon not found!" /> };
     };
 
     const array = [

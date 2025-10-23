@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import LightBgText from '../subComponents/LightBgText'
-// import Dashboard_logo from 'E:/shahzaib/school_management/public/dashboard-logo.png'
 import Dashboard_logo from '../../../public/dashboard-logo.png'
 import { NavLink, useLocation } from 'react-router-dom'
 import { GoHome } from "react-icons/go";

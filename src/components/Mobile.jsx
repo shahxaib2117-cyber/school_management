@@ -1,5 +1,4 @@
 import React from 'react'
-import mobile_img from  'E:/shahzaib/school_management/public/mobile-img.png'
 import { CgProfile } from "react-icons/cg";
 
 const Mobile = () => {
@@ -33,7 +32,7 @@ const Mobile = () => {
             </div>
             {/* img-child */}
             <div className="h-full w-4/10 flex justify-center overflow-hidden ">
-                <img className='h-10/10 ' src={mobile_img} alt="" />
+                <img className='h-10/10 ' src="/mobile-img.png" alt="mobile-img.png not found!" />
             </div>
         </div>
     )

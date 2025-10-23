@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import logo from 'E:/shahzaib/school_management/public/logo.png'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 
@@ -28,7 +27,7 @@ const Navbar = () => {
         <div className='navbar-bg h-10 flex gap-15 md:gap-5 px-10 lg:gap-28 rounded-bl-2xl rounded-br-2xl fixed z-[100] items-center ' >
             {/* logo */}
             <div className="h-full flex justify-center items-center px-2 ">
-                <img src={logo} className='md:h-8 lg:h-10 md:w-20 lg:w-40 ' alt="" />
+                <img src="/logo.png" className='md:h-8 lg:h-10 md:w-20 lg:w-40 ' alt="logo.png not found!" />
             </div>
             {/* center-contant */}
             <div className="h-full hidden md:flex items-center ">

@@ -1,7 +1,5 @@
 import React from 'react'
-import center_img from 'E:/shahzaib/school_management/public/main-home-img.png'
 import Navbar from '../components/Navbar'
-import company_1_icon from 'E:/shahzaib/school_management/public/company_1_icon.png'
 import LoginBtnContext from '../LoginContext'
 import Cards from '../components/Cards'
 import Plans from '../components/Plans'
@@ -13,17 +11,17 @@ const FirstChild = () => {
 
     const icons_array = [
         {
-            icon: company_1_icon
+            icon: "/company_1_icon.png"
         }, {
-            icon: company_1_icon
+            icon: "/company_1_icon.png"
         }, {
-            icon: company_1_icon
+            icon: "/company_1_icon.png"
         }, {
-            icon: company_1_icon
+            icon: "/company_1_icon.png"
         }, {
-            icon: company_1_icon
+            icon: "/company_1_icon.png"
         }, {
-            icon: company_1_icon
+            icon: "/company_1_icon.png"
         }
     ]
 
@@ -56,7 +54,7 @@ const FirstChild = () => {
                 </button>
                 {/* main--img--div */}
                 <div className=" mt-8 md:mt-10">
-                    <img src={center_img} className='inner-box rounded-[10px] h-9/10 ' alt="center_img" />
+                    <img src="main-home-img.png" className='inner-box rounded-[10px] h-9/10 ' alt="center_img" />
                 </div>
                 {/* last--heading */}
                 {/* Trusted by company like */}

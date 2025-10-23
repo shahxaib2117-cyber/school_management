@@ -1,6 +1,5 @@
 import React from 'react'
 import LightBgText from './subComponents/LightBgText'
-import boy_img from 'E:/shahzaib/school_management/public/boy-img.png'
 
 
 const Customer = () => {
@@ -20,7 +19,7 @@ const Customer = () => {
                     <div className=" flex gap-30 border-[#0baf0d] ">
                         {/* img-div */}
                         <div className=" h-[330px] flex items-center rounded-[10px] overflow-hidden ">
-                            <img src={boy_img} className='h-13/10 ' alt="" />
+                            <img src="/boy-img.png" className='h-13/10 ' alt="boy-img.png not found!" />
                         </div>
                         {/* button-price-pera-text-div */}
                         <div className=" flex flex-col justify-between border-[red] ">

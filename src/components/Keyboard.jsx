@@ -1,12 +1,11 @@
 import React from 'react'
-import keyboard from 'E:/shahzaib/school_management/public/keyboard.png'
 import LightBgText from './subComponents/LightBgText'
 
 const Keyboard = () => {
     return (
         <div className=' container gap-20 flex mt-10 '>
             <div className=" h-100 flex justify-center items-center overflow-hidden py-1 px-1">
-                <img src={keyboard} className='h-120 ' alt="" />
+                <img src="/keyboard.png" className='h-120 ' alt="keyboard.png not found!" />
             </div>
             <div className=" ">
                 <div className="">

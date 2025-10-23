@@ -7,7 +7,6 @@ import { RiHeadphoneFill } from 'react-icons/ri';
 import Modal from '../../commons/Modal';
 import StudentsData from '../dashboardData/StudentsData';
 import StudentsModalContant from '../modal-contants/StudentsModalContant';
-// import not_found_img from 'E:/shahzaib/school_management/public/dashboard-imgs/not-found-img.png'
 // import not_found_img from '../../../../public/dashboard-imgs/not-found-img.png'
 import StudentDetails from '../details/StudentDetails';
 import { createPortal } from 'react-dom';
