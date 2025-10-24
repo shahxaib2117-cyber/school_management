@@ -30,7 +30,6 @@ const FirstStep = ({ increase }) => {
         if (values.designation == "Teacher") {
             if (findExistingTeacher) {
                 localStorage.setItem("logedInTeacher", JSON.stringify(findExistingTeacher))
-                console.log("🚀 ~ handleSubmit ~ foundExistingTeacher:", findExistingTeacher)
                 localStorage.removeItem("logedInStudent")
                 increase()
             } else {
@@ -40,12 +39,10 @@ const FirstStep = ({ increase }) => {
                 localStorage.setItem("logedInTeacher", JSON.stringify(newTeacher))
                 localStorage.removeItem("logedInStudent")
                 increase()
-                console.log("🚀 ~ handleSubmit ~ NOT---foundExistingTeacher:")
             }
         } else if (values.designation == "Student") {
             if (findExistingStudent) {
                 localStorage.setItem("logedInStudent", JSON.stringify(findExistingStudent))
-                console.log("🚀 ~ handleSubmit ~ foundExistingStudent:", findExistingStudent)
                 localStorage.removeItem("logedInTeacher")
                 increase()
             } else {
@@ -55,12 +52,12 @@ const FirstStep = ({ increase }) => {
                 localStorage.setItem("logedInStudent", JSON.stringify(newStudent))
                 localStorage.removeItem("logedInTeacher")
                 increase()
-                console.log("🚀 ~ handleSubmit ~ NOT---foundExistingStudent:")
             }
-        } else {
-            return ''
+        } else if (values.designation == "Admin") {
+            localStorage.removeItem("logedInTeacher")
+            localStorage.removeItem("logedInStudent")
+            increase()
         }
-
     }
 
 
@@ -91,7 +88,7 @@ const FirstStep = ({ increase }) => {
                     name: '',
                     email: '',
                     gender: '',
-                    designation: '',
+                    designation: 'Admin',
                 }}
                 validationSchema={loginSchema}
                 onSubmit={handleSubmit}

@@ -7,16 +7,18 @@ const StudentsModalContant = ({ ...props }) => {
     
     const teachers = JSON.parse(localStorage.getItem('teachers')) || [];
     const logedInTeacher = JSON.parse(localStorage.getItem("logedInTeacher")) || {};
-    const filteredStudents = props?.students.filter((dat) => (dat.teacherId == logedInTeacher.teacherId)) || {}
+    const students = JSON.parse(localStorage.getItem("students")) || []
+    const filteredStudents = props?.students.filter((dat) => (dat.teacherId == logedInTeacher.teacherId)) || []
 
-    const get_ind = filteredStudents[props?.indexForEdit]
+    const get_ind = filteredStudents[props?.indexForEdit] || students[props?.indexForEdit] 
+    console.log("🚀 ~ StudentsModalContant ~ get_ind:", get_ind)
 
         useEffect(() => {
             // console.log('teachers :', teachers.length)
         }, [teachers])
     var randomIdGenrater = Math.floor(Date.now() * (Math.random() * 0.00000001))
     const rareId = crypto.randomUUID()
-    console.log("🚀 ~ StudentsModalContant ~ rareId:", rareId)
+    // console.log("🚀 ~ StudentsModalContant ~ rareId:", rareId)
     
     const [randomNumber, setRandomNumber] = useState(randomIdGenrater)
 
@@ -67,7 +69,7 @@ const StudentsModalContant = ({ ...props }) => {
             localStorage.setItem('students', JSON.stringify(updatedStudents));
         }
 
-        console.log("🚀 ~ clicked ~ studentsFormData:", studentsFormData)
+        // console.log("🚀 ~ clicked ~ studentsFormData:", studentsFormData)
 
         setStudentsFormData({
             name: "",

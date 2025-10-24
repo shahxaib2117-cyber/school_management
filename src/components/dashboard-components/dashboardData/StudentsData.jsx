@@ -35,11 +35,10 @@ const StudentsData = (props) => {
     const [pageNum, setPageNum] = useState(0)
 
     // getting Students Of Logined Teacher
-    const getStudentsOfLoginedTeacher = logedInTeacher?.teacherId >= 0 ?
-        students?.filter((val) => (val?.teacherId == logedInTeacher?.teacherId)) : students
+    const getStudentsOfLoginedTeacher = students?.filter((data) => (data?.teacherId == logedInTeacher?.teacherId)) || students
+    console.log("🚀 ~ StudentsData ~ getStudentsOfLoginedTeacher:", getStudentsOfLoginedTeacher)
     const finalNum = pageNum * 8
     const selectedArrayForMap = getStudentsOfLoginedTeacher?.slice(finalNum, finalNum + 8)
-    // console.log("🚀 ~ StudentsData ~ selectedArrayForMap:",selectedArrayForMap.length)
 
     const filtered = selectedArrayForMap.filter((sub) =>
         (sub?.name || "").toLowerCase().includes((value || "").toLowerCase()) ||
@@ -64,8 +63,15 @@ const StudentsData = (props) => {
                 <p className='w-30 text-[14px] text-[#152259] font-semibold '>Class</p>
                 <p className={`duration-500 transition-all ease-in ${openStudentDetails != false ? `w-60` : `w-80`} text-[14px] text-[#152259] font-semibold `}>Email Address</p>
                 <p className='w-20 text-[14px] text-[#152259] font-semibold '>Gender</p>
-                <p className='w-15 text-[14px] text-[#152259] font-semibold '>Edit</p>
-                <p className='w-15 text-[14px] text-[#152259] font-semibold '>Delete</p>
+                {
+                    !loggedStudent ? (
+                        <>
+                            <p className='w-15 text-[14px] text-[#152259] font-semibold '>Edit</p>
+                            <p className='w-15 text-[14px] text-[#152259] font-semibold '>Delete</p>
+                        </>
+                    ) : ''
+                }
+
                 <div className="flex-1"></div>
             </div>
             {/* list */}
@@ -73,7 +79,7 @@ const StudentsData = (props) => {
                 <ul className='h-[22rem] flex flex-col gap-1 overflow-y-scroll'>
                     {filtered?.map((data, ind) => (
                         <li key={finalNum + ind}
-                            className={`${loggedStudent?.name == data?.name ? 'bg-slate-600 ' : ''}
+                            className={`${loggedStudent?.name == data?.name && '!bg-slate-600 '}
                             ${isClicked == (finalNum + ind) ? `!bg-[#66a5ec]` : ` even:bg-[#ececff]`} duration-200
                             transition-all ease-in shadow-md h-8 py-5 overflow-hidden w-full flex items-center rounded-[5px]`}>
                             {/* img */}
