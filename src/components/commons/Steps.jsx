@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import uncompleted_icon from 'E:/shahzaib/school_management/src/assets/un-completed_icon.png'
-import step_icon from 'E:/shahzaib/school_management/src/assets/step_icon.png'
-import checked_icon from 'E:/shahzaib/school_management/src/assets/checked_icon.png'
+import uncompleted_icon from '../../assets/un-completed_icon.png'
+import step_icon from '../../assets/step_icon.png'
+import checked_icon from '../../assets/checked_icon.png'
 
 const Steps = ({ steps }) => {
     const [activeIndex, setActiveIndex] = useState(steps ?? 0);
