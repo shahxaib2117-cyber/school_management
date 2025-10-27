@@ -21,6 +21,10 @@ const Sidebar = () => {
             text: 'Desktop'
         }, {
             icon: <GoHome className='text-white text-[20px] '/>,
+            nevigate: "/desktop/adminDashboard",
+            text: 'Admin Dashboard '
+        }, {
+            icon: <GoHome className='text-white text-[20px] '/>,
             nevigate: "/desktop/teacher",
             text: 'Teachers'
         }, {
@@ -47,6 +51,13 @@ const Sidebar = () => {
         }
     ]
 
+    const last_ind = links_array.at(-1)
+    const loggedInStudent = JSON.parse(localStorage.getItem("logedInStudent"||""))
+    const loggedInTeacher = JSON.parse(localStorage.getItem("logedInTeacher"||""))
+
+
+    const isAdmin = !loggedInStudent && !loggedInTeacher
+
     return (
         <div className="h-full bg-[#152259] flex flex-col ">
             {/* logo-title-div */}
@@ -66,22 +77,23 @@ const Sidebar = () => {
                 {links_array.map((data, ind) => (
                     <NavLink key={ind} to={data.nevigate}>
                         <div className={`flex items-center cursor-pointer rounded-[5px] transition-all duration-[300ms]
-                        ${ind == 6 ? `mt-35` : ``} 
-                        ${currentPath === data.nevigate ? `bg-[#509CDB]` :`` } px-2 py-2 gap-2  `}>
+                        ${!isAdmin && ind == 7 ? `mt-34` : ``} ${isAdmin && ind == 7 ? `mt-23` : ``}
+                        ${!isAdmin && ind == 1 ? 'hidden' : ''}
+                        ${currentPath === data.nevigate ? `bg-[#509CDB]` : `` } px-2 py-2 gap-2  `}>
                             {/* icon */}
                             <div className="h-5 w-5 flex justify-center items-center ">
                                 {data.icon}
                             </div>
                             {/* text */}
-                            {ind <= 5 ?
-                                <p className='text-[16px] text-white ' >{data.text}</p>
-                                :
+                            {ind == 7 ?
                                 <p className='text-[16px] text-white flex gap-5 font-semibold ' >
                                     Features
                                     <span className='flex justify-center items-center text-black text-[12px] px-4 rounded-[20px] bg-[#9cc8e3] '>
                                         NEW
                                     </span>
                                 </p>
+                                :
+                                <p className='text-[16px] text-white '>{data.text}</p>
                             }
                         </div>
                     </NavLink>

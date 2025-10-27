@@ -69,8 +69,6 @@ const StudentsModalContant = ({ ...props }) => {
             localStorage.setItem('students', JSON.stringify(updatedStudents));
         }
 
-        // console.log("🚀 ~ clicked ~ studentsFormData:", studentsFormData)
-
         setStudentsFormData({
             name: "",
             email: "",

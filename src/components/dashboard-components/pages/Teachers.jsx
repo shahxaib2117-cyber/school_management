@@ -14,6 +14,7 @@ const Teachers = () => {
 
   const { isAuthenticated, login, logout } = useAuth()
   const loggedInTeacher = JSON.parse(localStorage.getItem("logedInTeacher") || "{}")
+
   const isTeacherLoggedIn = loggedInTeacher?.name != null
 
   const [isOpen, setIsOpen] = useState(false);

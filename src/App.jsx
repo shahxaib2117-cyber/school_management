@@ -14,6 +14,7 @@ import Billing from './components/dashboard-components/pages/Billing'
 import Profile from './components/dashboard-components/pages/Profile'
 import Exams from './components/dashboard-components/pages/Exams'
 import Features from './components/dashboard-components/pages/Features'
+import AdminDashboard from './components/dashboard-components/pages/AdminDashboard'
 
 function App() {   
    const { isAuthenticated } = useAuth()
@@ -38,6 +39,7 @@ function App() {
         element={isAuthenticated ? <Desktop /> : <Navigate replace to="/" /> }
       >
         <Route index element={<Desktop_Link_1 />} />
+        <Route path="adminDashboard" element={<AdminDashboard />} />
         <Route path="teacher" element={<Teachers />} />
         <Route path="students" element={<Students />} />
         <Route path="billing" element={<Billing />} />

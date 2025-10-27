@@ -8,6 +8,7 @@ const StudentDashboard = () => {
     const { isAuthenticated, login, logout } = useAuth()
 
     const loggedInStudent = JSON.parse(localStorage.getItem("logedInStudent"))
+    const announcement = JSON.parse(localStorage.getItem("announcement") || "[]")
 
     const name = loggedInStudent?.name
     const clas = loggedInStudent?.class
@@ -21,7 +22,6 @@ const StudentDashboard = () => {
         <div className='h-screen container overflow-hidden relative '>
             {/* navbar */}
             <div className="h-13 w-full px-5 flex justify-between items-center bg-slate-400 absolute ">
-
                 {/* student's profile */}
                 <div
                     style={{
@@ -34,12 +34,10 @@ const StudentDashboard = () => {
                     </div>
                     <div style={{ gridColumn: 'span 1', gridRow: 'span 1' }} className=""></div>
                     {/* name or class */}
-                    <div style={{ gridRow: 'span 1' }} className="flex flex-col justify-center ">
+                    <div style={{ gridRow: 'span 1'}} className="flex flex-col justify-center ">
                         <p className='text-[18px] font-semibold '>{name}</p>
                         <p className='text-[12px] '>{clas}</p>
                     </div>
-                    {/* <div style={{gridRow:'span 1'}} className="flex h-full">
-                        </div> */}
                 </div>
 
                 {/* logout-btn or notification-icon */}
@@ -112,8 +110,15 @@ const StudentDashboard = () => {
                     {/* current student's teachers div */}
                     <div style={{ gridColumn: 'span 1', gridRow: 'span 2' }} className=" flex flex-col gap-2 ">
                         <p className='text-[18px] font-semibold text-[#cfcece]'>Announcement </p>
-                        <div className="w-1/1 h-45 flex flex-col items-center overflow-y-scroll ">
-                            <div className="blue_bg_effect min-h-20 w-18/20 mt-2 rounded-[5px] "></div>
+                        <div className="blue_shadow_effect w-1/1 h-45 flex flex-col items-center overflow-y-scroll rounded-[5px] ">
+                            {
+                                announcement?.map((data, ind) => (
+                                    <div key={ind} className="blue_bg_effect w-18/20 px-2 py-2 mt-2 rounded-[5px] break-words mb-5 ">
+                                        <p className='text-[17px] text-[#cfcece] font-semibold '>{data?.title}</p>
+                                        <p className='text-[14px] text-[#cfcece] '>{data?.text}</p>
+                                    </div>
+                                ))
+                            }
                         </div>
                     </div>
                     {/* current student's un-paid feeses div */}

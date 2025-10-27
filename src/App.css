@@ -36,6 +36,13 @@
 }
 
 
+.blue_shadow_effect {
+  background: #131e4e; /* soft gray */
+ box-shadow:  inset 0px 5px 10px rgba(0, 0, 0, 0.6),   /* bottom inner shadow */
+  inset 0px -5px 10px rgba(39, 63, 159, 0.5); /* top inner shadow */
+  border: none;
+}
+
 .blue_bg_effect {
   background: #131e4e; /* soft gray */
   box-shadow: -1px -1px 5px 0px rgba(39, 63, 159, 0.653),
