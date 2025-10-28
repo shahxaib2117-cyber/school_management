@@ -9,21 +9,27 @@ const TeacherDashboard = () => {
 
     const { isAuthenticated, login, logout } = useAuth()
     const [isOpenDeleteMadal, setIsOpenDeleteMadal] = useState(false)
-    const [indexForDeleteAnnouncement,setIndexForDeleteAnnouncement] = useState()
-    // console.log("🚀 ~ TeacherDashboard ~ indexForDeleteAnnouncement:", indexForDeleteAnnouncement)
+    const [indexForDeleteAnnouncement, setIndexForDeleteAnnouncement] = useState()
     const loggedInTeacher = JSON.parse(localStorage.getItem("logedInTeacher"))
     const announcement = JSON.parse(localStorage.getItem("announcement") || "[]")
-    // console.log("🚀 ~ TeacherDashboard ~ announcement:", announcement?.length)
     const name = loggedInTeacher?.name
     const clas = loggedInTeacher?.class
     const gender = loggedInTeacher?.gender
+    const timeTable = JSON.parse(localStorage.getItem("timeTable") || "[]")
+    const find_subjects = timeTable?.filter((data) => (
+        data.timings.some((t) => (t.subject?.toLowerCase() == 'english'))
+    ))
+    console.log("🚀 ~ TeacherDashboard ~ find_subjects:", find_subjects)
+
+    // localStorage.removeItem("timeTable")
+
 
     const handleSetInd = (ind) => {
         setIndexForDeleteAnnouncement(ind)
         setIsOpenDeleteMadal(true)
     }
     const handleDelete = () => {
-        const updated = announcement.filter((_,ind) => ind !== indexForDeleteAnnouncement )
+        const updated = announcement.filter((_, ind) => ind !== indexForDeleteAnnouncement)
         console.log("🚀 ~ handleDelete ~ updated:", updated)
         localStorage.setItem("announcement", JSON.stringify(updated))
         setIsOpenDeleteMadal(false)
@@ -59,7 +65,7 @@ const TeacherDashboard = () => {
                     style={{
                         gridTemplateColumns: `40px 1px 1fr`,
                         gridTemplateRows: `1fr`
-                    }} className=' container h-full w-3/10 grid gap-1 ' >
+                    }} className=' container h-full w-3/10 grid gap-1 '>
                     {/* profile/img */}
                     <div style={{ gridRow: 'span 1' }} className="flex justify-center items-center ">
                         <div className="h-10 w-10 rounded-full bg-[blue] "></div>
@@ -91,9 +97,9 @@ const TeacherDashboard = () => {
                 <div className="blue_bg_effect px-10 h-[10rem] flex justify-between border-[2px] rounded-[20px] ">
                     {/* name */}
                     <div className="h-full flex items-center ">
-                        <p className='text-[35px] text-[#cfcece] '>
+                        <p className='text-[35px] text-[#94a4d2] '>
                             Wellcome Back {name}! <br />
-                            <span className='text-[25px] text-[#cfcece] '>
+                            <span className='text-[25px] text-[#94a4d2] '>
                                 Always stay updated in your teacher portal
                             </span>
                         </p>
@@ -119,17 +125,44 @@ const TeacherDashboard = () => {
                     className="h-130 w-full grid gap-[1%] py-1 mt-10 ">
                     <div style={{ gridColumn: 'span 1', gridRow: 'span 2' }} className=" flex flex-col gap-2 px-2 ">
                         {/* current student's ___ div */}
-                        <p className='text-[18px] font-semibold text-[#cfcece]'>SomeThings</p>
-                        <div className=" flex justify-center items-center gap-5 ">
-                            <div className="blue_bg_effect h-40 w-40 rounded-[10px] "></div>
-                            <div className="blue_bg_effect h-40 w-40 rounded-[10px] "></div>
-                            <div className="blue_bg_effect h-40 w-40 rounded-[10px] "></div>
-                            <div className="blue_bg_effect h-40 w-40 rounded-[10px] "></div>
+                        <p className='text-[18px] font-semibold text-[#94a4d2]'>Time Shadule</p>
+                        <div className=" h-50 blue_shadow_effect overflow-x-scroll py-2 flex rounded-[5px] ">
+                            <div className="flex justify-center items-center gap-5 px-4 ">
+                                {
+                                    find_subjects.map((data, ind) => (
+                                        <div key={ind} className={`blue_bg_effect h-36 w-36 flex flex-col items-center justify-center gap-2 rounded-[10px] px-2 py-2 `}>
+                                            <p className='text-[30px] font-semibold text-[#94a4d2] '>{data.clas}</p>
+                                            {/* <p className='text-[20px] text-[#94a4d2] '>{data?.timings?.time}</p> */}
+                                            {ind != 3 ? data.timings.map((dat, ind) => (
+                                                <div key={ind} className={`${dat.subject.toLowerCase() == 'english' ? 'block' : 'hidden'} 
+                                                 flex flex-col justify-center items-center `}>
+                                                    <p className={`text-[16px] font-semibold text-[#94a4d2] `} >
+                                                        {dat?.subject}
+                                                    </p>
+                                                    <p className='text-[14px] text-[#94a4d2] '>
+                                                        {dat?.time}
+                                                    </p>
+                                                </div>
+
+                                            )) : data.timings.map((dat, ind) => (
+                                                <div key={ind} className={`${dat.subject.toLowerCase() == 'break' ? 'block' : 'hidden'}
+                                                 flex flex-col justify-center items-center `}>
+                                                    <p className='text-[16px] text-[#94a4d2] '>
+                                                        {dat?.time}
+                                                    </p>
+                                                </div>
+                                            ))
+                                            }
+                                        </div>
+                                    ))
+                                }
+
+                            </div>
                         </div>
                     </div>
                     {/* current student's teachers div */}
                     <div style={{ gridColumn: 'span 1', gridRow: 'span 1' }} className=" flex flex-col gap-2 ">
-                        <p className='text-[18px] font-semibold text-[#cfcece]'>Current present teachers</p>
+                        <p className='text-[18px] font-semibold text-[#94a4d2]'>Current present teachers</p>
                         <div className="blue_shadow_effect rounded-[5px] flex items-center overflow-y-hidden overflow-x-scroll gap-5 ">
                             <div className="h-20 flex justify-center items-center gap-5 px-4 ">
                                 <div className="blue_bg_effect h-10 w-10 mb-1 rounded-full hover:scale-[1.2] transition-all duration-200 ease-in "></div>
@@ -143,17 +176,17 @@ const TeacherDashboard = () => {
                     </div>
                     {/* announcement div */}
                     <div style={{ gridColumn: 'span 1', gridRow: 'span 2' }} className=" flex flex-col gap-2 ">
-                        <p className='text-[18px] font-semibold text-[#cfcece]'>Announcement </p>
+                        <p className='text-[18px] font-semibold text-[#94a4d2]'>Announcement </p>
                         <div className="blue_shadow_effect w-1/1 h-45 flex flex-col items-center overflow-y-scroll rounded-[5px] pb-2 ">
                             {announcement?.length ? (announcement?.reverse()?.map((data, ind) => (
                                 <div key={ind} className="blue_bg_effect w-18/20 px-2 py-2 mt-3 rounded-[5px] break-words mb-1 ">
                                     <div className="flex justify-between ">
-                                        <p className='text-[17px] text-[#cfcece] font-semibold '>{data?.title}</p>
+                                        <p className='text-[17px] text-[#94a4d2] font-semibold '>{data?.title}</p>
                                         <MdOutlineDelete onClick={() => handleSetInd(ind)}
                                             className='ml-20 text-[20px] text-[#ea4545] hover:scale-[1.4] hover:text-[red] duration-300 transition-all ' />
                                     </div>
 
-                                    <p className='text-[14px] text-[#cfcece] '>{data?.text}</p>
+                                    <p className='text-[14px] text-[#94a4d2] '>{data?.text}</p>
                                 </div>
                             ))) : (
                                 <div className="blue_bg_effect flex justify-center items-center h-18/20 w-18/20 px-2 py-2 mt-2 rounded-[5px] ">
@@ -165,12 +198,12 @@ const TeacherDashboard = () => {
                     </div>
                     {/* current student's un-paid feeses div */}
                     <div style={{ gridColumn: 'span 1', gridRow: 'span 2' }} className=" flex flex-col gap-1 ">
-                        <p className='text-[18px] font-semibold text-[#cfcece]'>Un-paid Feeses</p>
+                        <p className='text-[18px] font-semibold text-[#94a4d2]'>Un-paid Feeses</p>
                         <div className="w-1/1 h-20 flex items-center overflow-x-scroll px-2 ">
-                            <div className="blue_bg_effect h-5/10 min-w-40 flex justify-center items-center px-2 rounded-[5px] ">
-                                <p className='text-[17px] font-semibold text-[#cfcece]'>
+                            <div className="blue_bg_effect py-2 min-w-30 text-[17px] font-semibold text-[#94a4d2] px-2 rounded-[5px] hover:scale-[1.05] transition-all duration-200 ease-in ">
+                                {/* <p className=''> */}
                                     Addmission Fees
-                                </p>
+                                {/* </p> */}
                             </div>
                         </div>
                     </div>

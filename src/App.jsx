@@ -55,3 +55,12 @@ function App() {
 }
 
 export default App;
+
+
+//              12:00 to 1:00   1:01 to 2:00     2:01 to 2:30   2:31 to 3:00       3:00 to 3:30       3:31 to 4:30      
+// jss1         english         computer         math                              physics            urdu
+// jss2         urdu            english          computer                          math               physics
+// jss3         physics         urdu             english                           computer           math
+// break        break           break            break                             break              break
+// jss4         math            physics          urdu                              english            computer
+// jss5         computer        math             physics                           urdu               english
