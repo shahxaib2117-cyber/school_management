@@ -73,29 +73,6 @@ const TimeTable = () => {
         }
       ]
     },{
-      clas: 'Break',
-      timings: [
-        {
-          time: "12:00 to 1:00",
-          subject: 'Math'
-        }, {
-          time: "1:01 to 2:00",
-          subject: 'Computer'
-        }, {
-          time: "2:01 to 2:30",
-          subject: 'English'
-        }, {
-          time: "2:31 to 3:00",
-          subject: 'Break'
-        }, {
-          time: "3:01 to 3:30",
-          subject: 'Urdu'
-        }, {
-          time: "3:31 to 4:30",
-          subject: 'Physics'
-        }
-      ]
-    },{
       clas: 'jss4',
       timings: [
         {
@@ -159,14 +136,6 @@ const TimeTable = () => {
         find_subjects.map((dat, ind) => (
           <div key={ind} className="min-h-10 min-w-10 border-[2px] px-1 py-1 ">
             <p>{dat?.clas}</p>
-            {/* {
-              dat?.timings.map((data, index) => (
-                <div key={index} className="">
-                  <p>{data.time}</p>
-                  <p>{data.subject}</p>
-                </div>
-              ))
-            } */}
           </div>
         ))
       }

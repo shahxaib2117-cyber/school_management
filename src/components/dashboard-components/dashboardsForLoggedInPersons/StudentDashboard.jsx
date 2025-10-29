@@ -13,10 +13,15 @@ const StudentDashboard = () => {
     const timeTable = JSON.parse(localStorage.getItem("timeTable") || "[]")
 
     const name = loggedInStudent?.name
-    const clas = loggedInStudent?.class
+    const clas = loggedInStudent?.schoolClass
     const gender = loggedInStudent?.gender
+    
+    console.log("🚀 ~ StudentDashboard ~ clas:", clas)
 
-    const filteredTable = timeTable.filter((data) => (data.clas == 'jss1'))
+    const filteredTable = timeTable.filter((data) => (data.clas == clas))
+    for (let i = 0; i < timeTable.length; i++) {
+    //    console.log(timeTable[i].timings[0].subject) 
+    }
 
     const handleLogout = () => {
         logout()

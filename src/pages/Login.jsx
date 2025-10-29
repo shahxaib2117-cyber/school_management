@@ -1,20 +1,28 @@
 import React, { useContext, useState } from 'react'
 import Input from '../components/commons/Input'
 import LoginBtnContext from '../LoginContext'
-import { Links, NavLink, Route } from 'react-router-dom'
+import { Links, NavLink, Route, useNavigate } from 'react-router-dom'
 import FirstStep from '../components/loginSteps/FirstStep'
 import Steps from '../components/commons/Steps'
 import SecondStep from '../components/loginSteps/SecondStep'
 import ThirdStep from '../components/loginSteps/ThirdStep'
 import LastStep from '../components/loginSteps/LastStep'
 import '/src/components/loginSteps/loginsteps.css'
+import { useAuth } from '../contexts/AuthContext'
 
 const Login = () => {
 
     const [count, setCount] = useState(0)
+    const { isAuthenticated, login, logout } = useAuth()
 
-    const increase = () => {
-        {
+    const nevigate = useNavigate()
+
+    const increase = (data) => {
+        if (data == 1) {
+            // setCount(count + 4)
+            nevigate('/desktop')
+            login()
+        } else {
             setCount(count + 1)
         }
     }

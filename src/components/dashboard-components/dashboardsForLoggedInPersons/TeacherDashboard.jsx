@@ -12,17 +12,50 @@ const TeacherDashboard = () => {
     const [indexForDeleteAnnouncement, setIndexForDeleteAnnouncement] = useState()
     const loggedInTeacher = JSON.parse(localStorage.getItem("logedInTeacher"))
     const announcement = JSON.parse(localStorage.getItem("announcement") || "[]")
+
     const name = loggedInTeacher?.name
-    const clas = loggedInTeacher?.class
+    const clas = loggedInTeacher?.schoolClass
+    console.log("🚀 ~ TeacherDashboard ~ clas:", clas)
     const gender = loggedInTeacher?.gender
+    // logged in teacher first class
+    const firstClass = clas?.slice(3)
+
     const timeTable = JSON.parse(localStorage.getItem("timeTable") || "[]")
     const find_subjects = timeTable?.filter((data) => (
-        data.timings.some((t) => (t.subject?.toLowerCase() == 'english'))
+        data.timings.some((t) => (t.subject?.toLowerCase() == 'math'))
     ))
-    console.log("🚀 ~ TeacherDashboard ~ find_subjects:", find_subjects)
 
-    // localStorage.removeItem("timeTable")
+    const rotated = [...find_subjects.slice(firstClass-1), ...find_subjects.slice(0, firstClass-1)];
 
+    const breake = {
+        break: 'Break',
+        timings: [
+            {
+                time: "2:31 to 3:00",
+                subject: 'Break'
+            }
+        ]
+    }
+
+    rotated.splice(3, 0, breake)
+
+    const times = [
+        {
+            time: '12:00 to 1:00'
+        }, {
+            time: '1:01 to 2:00'
+        }, {
+            time: '2:01 to 2:30'
+        }, {
+            time: '2:31 to 3:00'
+        }, {
+            time: '3:01 to 3:30'
+        }, {
+            time: '3:31 to 4:30'
+        }
+    ]
+
+    // const classTeacher = timeTable[i].timings[0].subject
 
     const handleSetInd = (ind) => {
         setIndexForDeleteAnnouncement(ind)
@@ -129,34 +162,29 @@ const TeacherDashboard = () => {
                         <div className=" h-50 blue_shadow_effect overflow-x-scroll py-2 flex rounded-[5px] ">
                             <div className="flex justify-center items-center gap-5 px-4 ">
                                 {
-                                    find_subjects.map((data, ind) => (
-                                        <div key={ind} className={`blue_bg_effect h-36 w-36 flex flex-col items-center justify-center gap-2 rounded-[10px] px-2 py-2 `}>
-                                            <p className='text-[30px] font-semibold text-[#94a4d2] '>{data.clas}</p>
+                                    rotated.map((data, index) => (
+                                        <div key={index} className={`blue_bg_effect h-36 w-36 flex flex-col items-center justify-center gap-2 rounded-[10px] px-2 py-2 `}>
+                                            <p className={`text-[30px] font-semibold ${data?.break ? '!text-[#324a92]' : ''} text-[#94a4d2] `} >{data?.clas || data?.break}</p>
                                             {/* <p className='text-[20px] text-[#94a4d2] '>{data?.timings?.time}</p> */}
-                                            {ind != 3 ? data.timings.map((dat, ind) => (
-                                                <div key={ind} className={`${dat.subject.toLowerCase() == 'english' ? 'block' : 'hidden'} 
+                                            {!data?.break ? data.timings.map((dat, ind) => (
+                                                <div key={ind} className={`${dat.subject.toLowerCase() == 'math' ? 'block' : 'hidden'} 
                                                  flex flex-col justify-center items-center `}>
-                                                    <p className={`text-[16px] font-semibold text-[#94a4d2] `} >
+                                                    <p className={`text-[16px] font-semibold text-[#94a4d2] `}>
                                                         {dat?.subject}
                                                     </p>
                                                     <p className='text-[14px] text-[#94a4d2] '>
-                                                        {dat?.time}
+                                                        {times[index]?.time}
                                                     </p>
                                                 </div>
-
-                                            )) : data.timings.map((dat, ind) => (
-                                                <div key={ind} className={`${dat.subject.toLowerCase() == 'break' ? 'block' : 'hidden'}
-                                                 flex flex-col justify-center items-center `}>
-                                                    <p className='text-[16px] text-[#94a4d2] '>
-                                                        {dat?.time}
-                                                    </p>
-                                                </div>
-                                            ))
+                                            )) : <div className={`flex flex-col justify-center items-center `}>
+                                                <p className='text-[14px] text-[#324a92] '>
+                                                    {times[index]?.time}
+                                                </p>
+                                            </div>
                                             }
                                         </div>
                                     ))
                                 }
-
                             </div>
                         </div>
                     </div>
@@ -202,7 +230,7 @@ const TeacherDashboard = () => {
                         <div className="w-1/1 h-20 flex items-center overflow-x-scroll px-2 ">
                             <div className="blue_bg_effect py-2 min-w-30 text-[17px] font-semibold text-[#94a4d2] px-2 rounded-[5px] hover:scale-[1.05] transition-all duration-200 ease-in ">
                                 {/* <p className=''> */}
-                                    Addmission Fees
+                                Addmission Fees
                                 {/* </p> */}
                             </div>
                         </div>

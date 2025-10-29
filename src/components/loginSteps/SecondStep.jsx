@@ -1,63 +1,77 @@
-import React, { useState } from 'react'
-import Input from '../commons/Input'
+import React, { useContext, useState } from 'react'
+import Input from '../../components/commons/Input'
+import { Links, NavLink } from 'react-router-dom'
+import { useAuth } from '../../contexts/AuthContext'
+import * as Yup from 'yup'
+import { ErrorMessage, Field, Form, Formik } from 'formik'
 
-const SecondStep = ({increase}) => {
-    const [password, setPassword] = useState({
-        enterPassword: "",
-        confirmPassword: ""
-    })
+const SecondStep = ({ increase }) => {
 
-    const handleChange = (e) => {
-        let { name, value } = e.target
-        setPassword({
-            ...password,
-            [name]: value
-        })
+    const { isAuthenticated, login, logout } = useAuth()
+
+    const teachers = JSON.parse(localStorage.getItem('teachers')) || []
+    const students = JSON.parse(localStorage.getItem('students')) || []
+
+    const loggedInStudent = JSON.parse(localStorage.getItem("logedInStudent"))
+    const loggedInTeacher = JSON.parse(localStorage.getItem("logedInTeacher"))
+
+    const logedInPerson = loggedInStudent || loggedInTeacher
+    console.log("🚀 ~ SecondStep ~ logedInPerson:", logedInPerson?.designation)
+
+    const handleSubmit = (values) => {
+        const updated = { ...logedInPerson, schoolClass: values.schoolClass }
+
+        if (logedInPerson?.designation == 'Teacher') {
+            localStorage.setItem("logedInTeacher", JSON.stringify(updated))
+            increase()
+        } else if (logedInPerson?.designation == 'Student') {
+            localStorage.setItem("logedInStudent", JSON.stringify(updated))
+            increase()
+        } else {
+            return ''
+        }
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setPassword({
-            confirmPassword:'',
-            enterPassword:''
-        })
-        increase()
-    };
-
-    const confirmPassward = password.enterPassword === password.confirmPassword ;
+    const loginSchema = Yup.object({
+        schoolClass: Yup.string()
+            .required('required')
+    })
 
     return (
-        <div className=' w-full flex flex-col gap-5 justify-center items-center '>
-            <p className='text-[50px] font-semibold text-[black] '>
-               Udemy school, Choose your password
+        <div className=' w-full flex flex-col gap-2 justify-center items-center '>
+            <p className='text-[45px] font-semibold text-[black] '>
+                Welcome, create your school account
             </p>
-            <form onSubmit={handleSubmit} className=" form-shadow flex flex-col justify-center gap-3 py-5 px-20 rounded-[10px] ">
-                <p className='text-center text-[20px] font-semibold '>
-                    It is our great pleasure to have <br /> you on board!
-                </p>
-                <p className='text-[18px] ' >Choose a password</p>
-                <Input
-                    onChange={handleChange}
-                    value={password.enterPassword}
-                    className='w-70 form-input outline-none rounded-[5px] text-[18px] px-2 py-2 '
-                    name={"enterPassword"}
-                    type='password'
-                />
-                <p>Confirm password</p>
-                <Input
-                    onChange={handleChange}
-                    value={password.confirmPassword}
-                    className='w-70 form-input outline-none rounded-[5px] text-[18px] px-2 py-2 '
-                    name={"confirmPassword"}
-                    type='password'
-                />
-                <p className='ml-2 '>Already have account? <a href=""> Sign up</a> </p>
-                {/* <button disabled={password.enterPassword.length <= 3 || !confirmPassward}   */}
-                <button   
-                 type="submit" className="bg-blue-500 px-30 py-2 text-white text-center rounded-[5px] disabled:bg-gray-600">
-                    Next
-                </button>
-            </form>
+            <Formik
+                initialValues={{
+                    schoolClass: '',
+                }}
+                validationSchema={loginSchema}
+                onSubmit={handleSubmit}
+            >
+                {({ errors, touched }) => (
+                    <Form className={`form-shadow flex flex-col justify-center items-center gap-5 py-5 px-20 bg-[#ffffff] rounded-[10px] `}>
+                        {/* class */}
+                        <div className="flex flex-col">
+                            <label className='text-[20px] '>
+                                {logedInPerson?.designation.toLowerCase() == 'teacher' ? "Select your first class" : "Class"}
+                            </label>
+                            <Field as="select" className={`w-70 form-input outline-none rounded-[5px] text-[18px] px-2 py-2
+                         ${touched.schoolClass && errors.schoolClass ? `border-[2px] border-[red]` : ``} `} name="schoolClass" >
+                                <option value="schoolClass">Class</option>
+                                <option value="jss1">jss1</option>
+                                <option value="jss2">jss2</option>
+                                <option value="jss3">jss3</option>
+                                <option value="jss4">jss4</option>
+                                <option value="jss5">jss5</option>
+                            </Field>
+                            <ErrorMessage name='schoolClass' component={'p'} className='text-[red] ' />
+                        </div>
+                        {/* button */}
+                        <button type='submit' className='px-3 py-1 font-semibold text-white rounded-[5px] bg-[#498cea] '>Next</button>
+                    </Form>
+                )}
+            </Formik>
         </div>
     )
 }

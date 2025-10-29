@@ -11,21 +11,23 @@ const FirstStep = ({ increase }) => {
 
     const teachers = JSON.parse(localStorage.getItem('teachers')) || []
     const students = JSON.parse(localStorage.getItem('students')) || []
-    console.log("🚀 ~ FirstStep ~ students:", students)
+    // console.log("🚀 ~ FirstStep ~ students:", students)
 
     const handleSubmit = (values) => {
         const findExistingTeacher = teachers?.find((data, ind) =>
-            data.name.toLowerCase() == values.name.toLowerCase() &&
-            data.gender == values.gender &&
-            data.email.toLowerCase() == values.email.toLowerCase()
+            data?.name?.toLowerCase() == values?.name?.toLowerCase() &&
+            data?.designation?.toLowerCase() == values?.designation?.toLowerCase() &&
+            data?.gender == values?.gender &&
+            data?.email?.toLowerCase() == values?.email?.toLowerCase()
         )
         const findExistingStudent = students?.find((data, ind) =>
-            data.name.toLowerCase() == values.name.toLowerCase() &&
-            data.gender == values.gender &&
-            data.email.toLowerCase() == values.email.toLowerCase()
+            data?.name?.toLowerCase() == values?.name?.toLowerCase() &&
+            data?.designation?.toLowerCase() == values?.designation?.toLowerCase() &&
+            data?.gender == values?.gender &&
+            data?.email?.toLowerCase() == values?.email?.toLowerCase()
         )
-        console.log("🚀 ~ handleSubmit ~ findExistingStudent:", findExistingStudent)
-        console.log("🚀 ~ handleSubmit ~ values.designation:", values.designation)
+        // console.log("🚀 ~ handleSubmit ~ findExistingStudent:", findExistingStudent)
+        // console.log("🚀 ~ handleSubmit ~ values.designation:", values.designation)
         // CHECKING DESIGNATION
         if (values.designation == "Teacher") {
             if (findExistingTeacher) {
@@ -56,7 +58,7 @@ const FirstStep = ({ increase }) => {
         } else if (values.designation == "Admin") {
             localStorage.removeItem("logedInTeacher")
             localStorage.removeItem("logedInStudent")
-            increase()
+            increase(1)
         }
     }
 
