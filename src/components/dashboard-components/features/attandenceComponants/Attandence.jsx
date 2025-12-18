@@ -1,42 +1,64 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Chart } from 'chart.js/auto';
+import axios from 'axios';
+import Teachers from '../../pages/Teachers';
 
 const Attandence = () => {
 
   const students = JSON.parse(localStorage.getItem('students') || "[]")
+  const teachers = JSON.parse(localStorage.getItem('teachers')) || [];
   const logedInTeachar = JSON.parse(localStorage.getItem("logedInTeacher") || "{}");
+  console.log("🚀 ~ Attandence ~ logedInTeachar:", logedInTeachar)
+  const [subject, setSubject] = useState('')
+  const currTeacherName = logedInTeachar?.name
 
-  const filterstudentsOfCurrentTeachered = students?.filter((data, ind) => data?.class?.toLowerCase() == logedInTeachar?.schoolClass)
-  // const [studentIndex,setStudentIndex] = useState([])
+  const getCurrTeacher = teachers.find((t) => t.name === currTeacherName)
+  console.log("🚀 ~ Attandence ~ getCurrTeacher:", getCurrTeacher.teacherId)
+  const seats = getCurrTeacher?.seats
+
+  const filterstudentsOfCurrentTeachered = students.filter((std) =>
+    seats?.some(s => s?.studentName == std?.name && s.bookedSubjects.find(sub => sub === subject))
+  )
+  
+  useEffect(()=>{
+    setSelectItem(filterstudentsOfCurrentTeachered)
+  },[subject])
+
+  const [selectItem, setSelectItem] = useState()
+
   const [studentStatusRecords, setStudentStatusRecords] = useState([])
   const [studentStatus, setStudentStatus] = useState(() => {
     const getData = localStorage.getItem("attendanceStatus");
     return getData ? JSON.parse(getData) : [];
   })
+  console.log("🚀 ~ Attandence ~ studentStatus:", studentStatus)
 
-  const date = new Date
-  const currentDate = date.getDate()
-  useEffect(() => {
-   setStudentStatusRecords((prev) =>  [...prev, studentStatus])
-  }, [currentDate])
-  
-  console.log("🚀 ~ Attandence ~ studentStatusRecords:", studentStatusRecords)
-  const [selectItem, setSelectItem] = useState(filterstudentsOfCurrentTeachered)
 
-  const statusLables = ["present", "absent", "leave", "late"]
+  const statusLables = ["present", "absent", "leave"]
 
   const buttons = [
     { text: "Present", clas: `scale-[1.1] w-[30%] text-[12px] !bg-[#005e00]`, },
     { text: "Absent", clas: `scale-[1.1] w-[30%] text-[12px] !bg-[#5e0202]`, },
     { text: "Leave", clas: `scale-[1.1] w-[30%] text-[12px] !bg-[#000054]`, },
-    { text: "Late", clas: `scale-[1.1] w-[30%] text-[12px] !bg-[#520052]`, }
   ]
 
   const handleClick = (studentIndex, statusIndex) => {
     setStudentStatus((prev) => {
       const copy = [...prev];
       const statusValue = statusLables[statusIndex]
-      copy[studentIndex] = copy[studentIndex] === statusValue ? null : statusValue;
+      const current = copy[studentIndex]
+      const newObj = {
+        status: statusValue,
+        date: new Date().toISOString().split("T")[0],
+        subject:subject,
+        teacherId:getCurrTeacher.teacherId
+      }
+      if (current && current.status === statusValue) {
+        copy[studentIndex] = null
+      } else {
+        copy[studentIndex] = newObj
+      }
+      // copy[studentIndex] = copy[studentIndex] === statusValue ? null : newObj;
       return copy
     })
   }
@@ -44,10 +66,9 @@ const Attandence = () => {
   const chartInstance = useRef(null);
 
   const attendanceCount = {
-    present: studentStatus?.filter(s => s === "present").length + studentStatus?.filter(s => s === "late").length,
-    absent: studentStatus?.filter(s => s === "absent").length,
-    leave: studentStatus?.filter(s => s === "leave").length,
-    late: studentStatus?.filter(s => s === "late").length,
+    present: studentStatus?.filter(s => s?.status === "present").length,
+    absent: studentStatus?.filter(s => s?.status === "absent").length,
+    leave: studentStatus?.filter(s => s?.status === "leave").length,
   };
 
   const total = filterstudentsOfCurrentTeachered.length;
@@ -55,6 +76,7 @@ const Attandence = () => {
   const colors = ["#127B09", "#7B0909", "#0B097B", "#7B095D"];
 
   useEffect(() => {
+
     localStorage.setItem("attendanceStatus", JSON.stringify(studentStatus));
 
     const circle = chartRef.current;
@@ -69,8 +91,7 @@ const Attandence = () => {
               data: [
                 attendanceCount.present,
                 attendanceCount.leave,
-                attendanceCount.absent,
-                attendanceCount.late
+                attendanceCount.absent
               ],
               backgroundColor: colors,
             },
@@ -86,12 +107,11 @@ const Attandence = () => {
       chartInstance.current.data.datasets[0].data = [
         attendanceCount.present,
         attendanceCount.absent,
-        attendanceCount.leave,
-        attendanceCount.late
+        attendanceCount.leave
       ];
       chartInstance.current.update();
     }
-  }, [studentStatus]);
+  }, [studentStatus, filterstudentsOfCurrentTeachered]);
 
 
   return (
@@ -108,8 +128,20 @@ const Attandence = () => {
           <p className="text-green-700">Present: <b>{attendanceCount.present}</b></p>
           <p className="text-[#e43838]">Absent: <b>{attendanceCount.absent}</b></p>
           <p className="text-blue-700">Leave: <b>{attendanceCount.leave}</b></p>
-          <p className="text-purple-700">Late: <b>{attendanceCount.late}</b></p>
         </div>
+        {/* select subjects */}
+        <div className="h-full py-2 flex flex-col gap-2 ">
+          <p className='text-[17px] text-[#94a4d2]'>Select subject for attandance</p>
+          <select onChange={(e) => setSubject(e.target.value)} className='blue_shadow_effect h-10 w-50 rounded-[5px] outline-none px-3 text-[18px] text-[#94a4d2] border-[black] '
+            id="subject" name="subject" >
+            {
+              getCurrTeacher.subject.map((data, ind)=>(
+                <option key={ind} className='text-[16px] text-[#94a4d2] ' value={'urdu'} >{data}</option>
+              ))
+            }
+          </select>
+        </div>
+
       </div>
       {/* data */}
       <div className="h-100 w-full overflow-y-scroll ">
@@ -119,11 +151,10 @@ const Attandence = () => {
           <div className="h-full w-[8%] flex justify-center items-end "><p className='text-[16px] text-[#b7b7b7] '>roll no</p></div>
           <div className="h-full w-[8%] flex justify-center items-end "><p className='text-[16px] text-[#b7b7b7] '>class</p></div>
           <div className="h-full w-[29%] flex justify-center items-end  "><p className='text-[16px] text-[#b7b7b7] '>email</p></div>
-          <div className="h-full w-[20%] flex items-end ">
+          <div className="h-full w-[20%] flex items-end justify-between px-3 ">
             <p className='text-[16px] font-semibold text-[#4bd54b] '>Present</p>
-            <p className='text-[16px] ml-10 font-semibold text-[#c24444] '>Absent</p>
-            <p className='text-[16px] ml-2 font-semibold text-[#4c4ccf] '>Leave</p>
-            <p className='text-[16px] ml-5 font-semibold text-[#c855c8]'>Late</p>
+            <p className='text-[16px] font-semibold text-[#c24444] '>Absent</p>
+            <p className='text-[16px] font-semibold text-[#4c4ccf] '>Leave</p>
           </div>
         </div>
         {/* items---div */}
@@ -153,7 +184,7 @@ const Attandence = () => {
                 {
                   buttons?.map((dat, ind) => (
                     <div key={ind} onClick={() => handleClick(index, ind)} className={`multicolors_bg_effect h-6 flex justify-center items-center delay-200 transition-all duration-400 ease-in bg-[#131e4e] rounded-[5px] text-[0px] text-[#b7b7b7]
-                       ${studentStatus ? ((studentStatus[index] === statusLables[ind]) ? dat?.clas : '') : ''} w-[17%]`}>
+                       ${studentStatus ? ((studentStatus[index]?.status === statusLables[ind]) ? dat?.clas : '') : ''} w-[17%]`}>
                       {dat?.text}
                     </div>
                   ))

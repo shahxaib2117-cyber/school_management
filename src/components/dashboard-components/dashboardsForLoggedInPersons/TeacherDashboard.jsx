@@ -14,19 +14,18 @@ const TeacherDashboard = () => {
     const loggedInTeacher = JSON.parse(localStorage.getItem("logedInTeacher"))
     const announcement = JSON.parse(localStorage.getItem("announcement") || "[]")
 
-    const name = loggedInTeacher?.name
-    const clas = loggedInTeacher?.schoolClass
-    console.log("🚀 ~ TeacherDashboard ~ clas:", clas)
-    const gender = loggedInTeacher?.gender
+    const name = loggedInTeacher ? loggedInTeacher?.name : null
+    // const clas = loggedInTeacher ? loggedInTeacher?.schoolClass : null
+    const gender = loggedInTeacher ? loggedInTeacher?.gender : null
     // logged in teacher first class
-    const firstClass = clas?.slice(3)
+    // const firstClass = clas?.slice(3)
 
     const timeTable = JSON.parse(localStorage.getItem("timeTable") || "[]")
     const find_subjects = timeTable?.filter((data) => (
         data.timings.some((t) => (t.subject?.toLowerCase() == 'math'))
     ))
 
-    const rotated = [...find_subjects.slice(firstClass - 1), ...find_subjects.slice(0, firstClass - 1)];
+    // const rotated = [...find_subjects.slice(firstClass - 1), ...find_subjects.slice(0, firstClass - 1)];
 
     const breake = {
         break: 'Break',
@@ -38,7 +37,7 @@ const TeacherDashboard = () => {
         ]
     }
 
-    rotated.splice(3, 0, breake)
+    // rotated.splice(3, 0, breake)
 
     const times = [
         {
@@ -108,7 +107,7 @@ const TeacherDashboard = () => {
                     {/* name or class */}
                     <div style={{ gridRow: 'span 1' }} className="flex flex-col justify-center ">
                         <p className='text-[18px] font-semibold '>{name}</p>
-                        <p className='text-[12px] '>{clas}</p>
+                        {/* <p className='text-[12px] '>{clas}</p> */}
                     </div>
                 </div>
 
@@ -159,14 +158,13 @@ const TeacherDashboard = () => {
                     className="h-130 w-full grid gap-[1%] py-1 mt-10 ">
                     <div style={{ gridColumn: 'span 1', gridRow: 'span 2' }} className=" flex flex-col gap-2 px-2 ">
                         {/* current student's ___ div */}
-                        <p className='text-[18px] font-semibold text-[#94a4d2]'>Time Shadule</p>
+                        <p className='text-[18px] font-semibold text-[#94a4d2]'>nothing</p>
                         <div className=" h-50 blue_shadow_effect overflow-x-scroll py-2 flex rounded-[5px] ">
-                            <div className="flex justify-center items-center gap-5 px-4 ">
-                                {
-                                    rotated.map((data, index) => (
+                            <div className=" justify-center items-center gap-5 px-4 hidden ">
+                                {/* {rotated ? rotated?.map((data, index) => (
                                         <div key={index} className={`blue_bg_effect h-36 w-36 flex flex-col items-center justify-center gap-2 rounded-[10px] px-2 py-2 `}>
                                             <p className={`text-[30px] font-semibold ${data?.break ? '!text-[#324a92]' : ''} text-[#94a4d2] `} >{data?.clas || data?.break}</p>
-                                            {/* <p className='text-[20px] text-[#94a4d2] '>{data?.timings?.time}</p> */}
+                                            <p className='text-[20px] text-[#94a4d2] '>{data?.timings?.time}</p>
                                             {!data?.break ? data.timings.map((dat, ind) => (
                                                 <div key={ind} className={`${dat.subject.toLowerCase() == 'math' ? 'block' : 'hidden'} 
                                                  flex flex-col justify-center items-center `}>
@@ -184,14 +182,14 @@ const TeacherDashboard = () => {
                                             </div>
                                             }
                                         </div>
-                                    ))
-                                }
+                                    )) : ''
+                                } */}
                             </div>
                         </div>
                     </div>
                     {/* current student's teachers div */}
                     <div style={{ gridColumn: 'span 1', gridRow: 'span 1' }} className=" flex flex-col gap-2 ">
-                        <p className='text-[18px] font-semibold text-[#94a4d2]'>Current present teachers</p>
+                        <p className='text-[18px] font-semibold text-[#94a4d2]'>nothing</p>
                         <div className="blue_shadow_effect rounded-[5px] flex items-center overflow-y-hidden overflow-x-scroll gap-5 ">
                             <div className="h-20 flex justify-center items-center gap-5 px-4 ">
                                 <div className="blue_bg_effect h-10 w-10 mb-1 rounded-full hover:scale-[1.2] transition-all duration-200 ease-in "></div>
@@ -227,13 +225,13 @@ const TeacherDashboard = () => {
                     </div>
                     {/* current student's un-paid feeses div */}
                     <div style={{ gridColumn: 'span 1', gridRow: 'span 2' }} className=" flex flex-col gap-1 ">
-                        <p className='text-[18px] font-semibold text-[#94a4d2]'>Un-paid Feeses</p>
+                        <p className='text-[18px] font-semibold text-[#94a4d2]'>Assignments</p>
                         <div className="w-1/1 h-20 flex items-center overflow-x-scroll px-2 ">
-                            <NavLink to={'/desktop/attendance'}>
-                                <div className="blue_bg_effect py-2 min-w-30 text-[17px] font-semibold text-[#94a4d2] px-2 rounded-[5px] hover:scale-[1.05] transition-all duration-200 ease-in ">
-                                    Addmission Fees
-                                </div>
-                            </NavLink>
+                            {/* <NavLink to={'/desktop/attendance'}> */}
+                            <div className="blue_bg_effect py-2 min-w-30 text-[17px] font-semibold text-[#94a4d2] px-2 rounded-[5px] hover:scale-[1.05] transition-all duration-200 ease-in ">
+                                Assignments
+                            </div>
+                            {/* </NavLink> */}
                         </div>
                     </div>
                 </div>

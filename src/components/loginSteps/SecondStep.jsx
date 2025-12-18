@@ -10,68 +10,90 @@ const SecondStep = ({ increase }) => {
     const { isAuthenticated, login, logout } = useAuth()
 
     const teachers = JSON.parse(localStorage.getItem('teachers')) || []
+    console.log("🚀 ~ SecondStep ~ teachers:", teachers)
     const students = JSON.parse(localStorage.getItem('students')) || []
 
     const loggedInStudent = JSON.parse(localStorage.getItem("logedInStudent"))
     const loggedInTeacher = JSON.parse(localStorage.getItem("logedInTeacher"))
 
     const logedInPerson = loggedInStudent || loggedInTeacher
-    console.log("🚀 ~ SecondStep ~ logedInPerson:", logedInPerson?.designation)
 
-    const handleSubmit = (values) => {
-        const updated = { ...logedInPerson, schoolClass: values.schoolClass }
+    const dummyArray = [
+        [{
+            name: 'shah',
+            email: "shahDummy@gmail.com",
+            age: 18
+        }], [{
+            name: 'musa',
+            email: "musaDummy@gmail.com",
+            age: 24
+        }], [{
+            name: 'anas',
+            email: "anasDummy@gmail.com",
+            age: 21
+        }]
+    ]
 
-        if (logedInPerson?.designation == 'Teacher') {
-            localStorage.setItem("logedInTeacher", JSON.stringify(updated))
-            increase()
-        } else if (logedInPerson?.designation == 'Student') {
-            localStorage.setItem("logedInStudent", JSON.stringify(updated))
-            increase()
-        } else {
-            return ''
-        }
+    const subjectsArray = ['english', 'urdu', 'math', 'science', 'computer', 'commerce', 'physics', 'chemistry']
+    const [selectedSubjectsArray, setSelectedSubjectsArray] = useState([])
+
+    const handleAdd = (ind) => {
+        const newSub = subjectsArray[ind]
+        setSelectedSubjectsArray((prev) => {
+            if (prev.includes(newSub)) {
+                return prev.filter(sub => sub !== newSub)
+            }
+            if (prev.length >= 5) {
+                return prev;
+            }
+            return [...prev, newSub]
+        })
     }
 
-    const loginSchema = Yup.object({
-        schoolClass: Yup.string()
-            .required('required')
-    })
+    // const [allLoggedInTeachers, setAllLoggedTeachers] = useState(() =>
+    //     JSON.parse(localStorage.getItem("allLoggedInTeachers") || "[]")
+    // )
+    
+    const handleClick = () => {
+        // const updatedTeacher = {
+        //     ...loggedInTeacher,
+        //     subjects: selectedSubjectsArray,
+        //     seats:[]
+        // }
+        // const updatedTeacherList = [...allLoggedInTeachers, updatedTeacher]
+
+        // localStorage.setItem("logedInTeacher", JSON.stringify(updatedTeacher))
+        // localStorage.setItem("allLoggedInTeachers", JSON.stringify(updatedTeacherList))
+
+        // setAllLoggedTeachers(updatedTeacherList)
+        increase()
+        // setSelectedSubjectsArray([])
+    }
 
     return (
         <div className=' w-full flex flex-col gap-2 justify-center items-center '>
             <p className='text-[45px] font-semibold text-[black] '>
                 Welcome, create your school account
             </p>
-            <Formik
-                initialValues={{
-                    schoolClass: '',
-                }}
-                validationSchema={loginSchema}
-                onSubmit={handleSubmit}
-            >
-                {({ errors, touched }) => (
-                    <Form className={`form-shadow flex flex-col justify-center items-center gap-5 py-5 px-20 bg-[#ffffff] rounded-[10px] `}>
-                        {/* class */}
-                        <div className="flex flex-col">
-                            <label className='text-[20px] '>
-                                {logedInPerson?.designation.toLowerCase() == 'teacher' ? "Select your first class" : "Class"}
-                            </label>
-                            <Field as="select" className={`w-70 form-input outline-none rounded-[5px] text-[18px] px-2 py-2
-                         ${touched.schoolClass && errors.schoolClass ? `border-[2px] border-[red]` : ``} `} name="schoolClass" >
-                                <option value="schoolClass">Class</option>
-                                <option value="jss1">jss1</option>
-                                <option value="jss2">jss2</option>
-                                <option value="jss3">jss3</option>
-                                <option value="jss4">jss4</option>
-                                <option value="jss5">jss5</option>
-                            </Field>
-                            <ErrorMessage name='schoolClass' component={'p'} className='text-[red] ' />
+            <div className={`form-shadow flex flex-col justify-center items-center gap-5 py-5 px-20 bg-[#ffffff] rounded-[10px] `}>
+                <div className="h-35 w-150 flex flex-col gap-3 justify-center ">
+                    <p className='text-[25px] text-center font-semibold '>Subjects you want to teach</p>
+                    <div className="h-15 w-full ">
+                        <div className="h-1/1 w-full flex flex-wrap justify-center gap-3 px-3 py-3 ">
+                            {subjectsArray.map((data, ind) => (
+                                <div key={ind} onClick={() => handleAdd(ind)} className={`duration-200 transition-all ease-in h-8 px-3 flex justify-center items-center
+                                  ${selectedSubjectsArray.includes(data) ? ' bg-[#444444] text-[#d0d0d0]' : ' bg-[#969696] text-[#d0d0d0]'}  hover:scale-[1.1] 
+                                 form-shadow rounded-[20px] `} >{data}</div>
+                            ))
+                            }
                         </div>
-                        {/* button */}
-                        <button type='submit' className='px-3 py-1 font-semibold text-white rounded-[5px] bg-[#498cea] '>Next</button>
-                    </Form>
-                )}
-            </Formik>
+                    </div>
+                </div>
+                <button type='submit' onClick={() => handleClick()} className={`px-3 py-1 mt-3 font-semibold text-white rounded-[5px] bg-[#498cea]
+                    disabled:bg-[#b3b3b3] `} >
+                    Next
+                </button>
+            </div>
         </div>
     )
 }

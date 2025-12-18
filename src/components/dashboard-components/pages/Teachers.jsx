@@ -15,7 +15,11 @@ const Teachers = () => {
   const { isAuthenticated, login, logout } = useAuth()
   const loggedInTeacher = JSON.parse(localStorage.getItem("logedInTeacher") || "{}")
 
-  const isTeacherLoggedIn = loggedInTeacher?.name != null
+  console.log("🚀 ~ Teachers ~ loggedInTeacher:", loggedInTeacher)
+  
+  const isTeacherLoggedIn = loggedInTeacher?.name
+
+  console.log("🚀 ~ Teachers ~ isTeacherLoggedIn:", isTeacherLoggedIn)
 
   const [isOpen, setIsOpen] = useState(false);
   const [teachers, setTeachers] = useState([]);
@@ -37,7 +41,7 @@ const Teachers = () => {
     setTeachers(saved);
   }, []);
 
-  const check = teachers.length === 0;
+  const check = teachers?.length === 0;
 
   // delete Teacher
   const deleteTeacher = (index) => {

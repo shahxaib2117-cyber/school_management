@@ -13,8 +13,6 @@ const TeachersData = (props) => {
   const filtered = teachers.filter((sub) =>
     (sub.name || "").toLowerCase().includes((value || "").toLowerCase()) ||
     (sub.email || "").toLowerCase().includes((value || "").toLowerCase()) ||
-    (sub.subject || "").toLowerCase().includes((value || "").toLowerCase()) ||
-    (sub.class || "").toLowerCase().includes((value || "").toLowerCase()) ||
     (sub.gender || "").toLowerCase().includes((value || "").toLowerCase())
   );
 
@@ -37,29 +35,24 @@ const TeachersData = (props) => {
         <ul className='max-h-[25rem] flex flex-col overflow-y-scroll gap-1'>
           {filtered.length >= 0 ? (filtered.map((data, ind) => (
             <li key={ind} className={`${ind % 2 !== 0 ? `bg-[#ececff]` : ``}
-             ${logedInTeacher.teacherId == data.teacherId ? 'bg-blue-400' : ``} shadow-md h-8 py-5 w-full flex items-center rounded-[5px]`}>
+             shadow-md h-8 py-5 w-full flex items-center rounded-[5px]`}>
               {/* img */}
               <div onClick={() => handleClick(ind)} className="w-48 pl-2 cursor-pointer flex items-center gap-1">
                 <div className="h-7 w-7 rounded-full bg-red-300 "></div>
-                <p className={`text-[14px] ${logedInTeacher.teacherId == data.teacherId ? `text-[#ffffff]` : `text-[#152259]`} 
-                   font-semibold `}>
+                <p className={`text-[14px] font-semibold `}>
                   {data.name}
                 </p>
               </div>
-                <p className={`w-30 text-[14px] ${logedInTeacher.teacherId == data.teacherId ? `text-[#ffffff]` : `text-[#152259]`} 
-                   font-semibold `}>
-                  {data.subject}
+                <p className={`w-30 text-[14px] bg-red-400 font-semibold `}>
+                  {/* {data?.subject} */}
                 </p>
-                <p className={`w-30 text-[14px] ${logedInTeacher.teacherId == data.teacherId ? `text-[#ffffff]` : `text-[#152259]`} 
-                   font-semibold `}>
-                  {data.class}
+                <p className={`w-30 text-[14px] bg-red-400 font-semibold `}>
+                  {/* {data.class} */}
                 </p>
-                <p className={`w-70 text-[14px] ${logedInTeacher.teacherId == data.teacherId ? `text-[#ffffff]` : `text-[#152259]`} 
-                   font-semibold `}>
+                <p className={`w-70 text-[14px] font-semibold `}>
                   {data.email}
                 </p>
-                <p className={`w-30 text-[14px] ${logedInTeacher.teacherId == data.teacherId ? `text-[#ffffff]` : `text-[#152259]`} 
-                   font-semibold `}>
+                <p className={`w-30 text-[14px] font-semibold `}>
                   {data.gender}
                 </p>
               <FaRegEdit onClick={() => editTeacher(ind)}

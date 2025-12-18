@@ -22,6 +22,8 @@ const Login = () => {
             // setCount(count + 4)
             nevigate('/desktop')
             login()
+        }if (data == 2) {
+            setCount(count + 2)
         } else {
             setCount(count + 1)
         }

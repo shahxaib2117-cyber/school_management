@@ -35,9 +35,8 @@ const StudentsData = (props) => {
     const [pageNum, setPageNum] = useState(0)
 
     // getting Students Of Logined Teacher
-    const filterstudentsOfCurrentTeachered = students?.filter((data, ind) => data?.class?.toLowerCase() == logedInTeachar?.schoolClass)
+    const filterstudentsOfCurrentTeachered = students
     const getStudentsOfLoginedTeacher = filterstudentsOfCurrentTeachered || students
-    console.log("🚀 ~ StudentsData ~ getStudentsOfLoginedTeacher:", getStudentsOfLoginedTeacher)
     const finalNum = pageNum * 8
     const selectedArrayForMap = getStudentsOfLoginedTeacher?.slice(finalNum, finalNum + 8)
 

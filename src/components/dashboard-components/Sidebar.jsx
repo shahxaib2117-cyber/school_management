@@ -30,7 +30,7 @@ const Sidebar = () => {
         }, {
             icon: <IoSchoolOutline className='text-white text-[20px] '/>,
             nevigate: "/desktop/students",
-            text: 'Students/Classes'
+            text: 'Students'
         }, {
             icon: <HiOutlineLibrary className='text-white text-[20px] '/>,
             nevigate: "/desktop/billing",
@@ -41,8 +41,8 @@ const Sidebar = () => {
             text: 'Settings and profile'
         }, {
             icon: <PiRankingLight className='text-white text-[20px] '/>,
-            nevigate: "/desktop/exams",
-            text: 'Exams'
+            nevigate: "/desktop/assingments",
+            text: 'Assingments'
         }, {
             icon: <PiRankingLight className='text-white text-[20px] '/>,
             nevigate: "/desktop/attendance",
@@ -55,7 +55,6 @@ const Sidebar = () => {
         }
     ]
 
-    const last_ind = links_array.at(-1)
     const loggedInStudent = JSON.parse(localStorage.getItem("logedInStudent"||""))
     const loggedInTeacher = JSON.parse(localStorage.getItem("logedInTeacher"||""))
 
@@ -81,9 +80,9 @@ const Sidebar = () => {
                 {links_array.map((data, ind) => (
                     <NavLink key={ind} to={data.nevigate}>
                         <div className={`flex items-center cursor-pointer rounded-[5px] transition-all duration-[300ms]
-                        ${!isAdmin && ind == 8 ? `mt-23` : ``} ${isAdmin && ind == 8 ? `mt-21` : ``}
-                        ${!isAdmin && ind == 1 ? 'hidden' : ''} ${isAdmin && ind == 7 ? `hidden` : ``}
-                        ${currentPath === data.nevigate ? `bg-[#509CDB]` : `` } px-2 py-2 gap-2  `}>
+                        ${!isAdmin && ind == 8 ? `mt-31` : ``} ${isAdmin && ind == 8 ? `mt-31` : ``} ${((!isAdmin && ind == 1)||(loggedInTeacher && ind == 3 )) ? 'hidden' : ''}
+                        ${((isAdmin && ind == 7) || loggedInStudent && ind == 7) ? `hidden` : ``} ${loggedInStudent && ind == 8 ? `mt-31` : ``}
+                        ${currentPath === data.nevigate ? `bg-[#509CDB]` : `` } ${(isAdmin && ind == 6) ? ' hidden':'' } px-2 py-2 gap-2  `}>
                             {/* icon */}
                             <div className="h-5 w-5 flex justify-center items-center ">
                                 {data.icon}

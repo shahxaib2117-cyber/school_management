@@ -7,51 +7,46 @@ import { ErrorMessage, Field, Form, Formik } from 'formik'
 
 const FirstStep = ({ increase }) => {
 
-    const { isAuthenticated, login, logout } = useAuth()
-
     const teachers = JSON.parse(localStorage.getItem('teachers')) || []
     const students = JSON.parse(localStorage.getItem('students')) || []
     // console.log("🚀 ~ FirstStep ~ students:", students)
 
     const handleSubmit = (values) => {
+
         const findExistingTeacher = teachers?.find((data, ind) =>
             data?.name?.toLowerCase() == values?.name?.toLowerCase() &&
-            data?.designation?.toLowerCase() == values?.designation?.toLowerCase() &&
+            // data?.designation?.toLowerCase() == values?.designation?.toLowerCase() &&
             data?.gender == values?.gender &&
             data?.email?.toLowerCase() == values?.email?.toLowerCase()
         )
+
         const findExistingStudent = students?.find((data, ind) =>
             data?.name?.toLowerCase() == values?.name?.toLowerCase() &&
-            data?.designation?.toLowerCase() == values?.designation?.toLowerCase() &&
+            // data?.designation?.toLowerCase() == values?.designation?.toLowerCase() &&
             data?.gender == values?.gender &&
             data?.email?.toLowerCase() == values?.email?.toLowerCase()
         )
-        // console.log("🚀 ~ handleSubmit ~ findExistingStudent:", findExistingStudent)
-        // console.log("🚀 ~ handleSubmit ~ values.designation:", values.designation)
-        // CHECKING DESIGNATION
+
         if (values.designation == "Teacher") {
             if (findExistingTeacher) {
                 localStorage.setItem("logedInTeacher", JSON.stringify(findExistingTeacher))
                 localStorage.removeItem("logedInStudent")
-                increase()
-            } else {
-                const newTeacher = { ...values, teacherId: teachers.length }
-                const updated = [...teachers, newTeacher]
-                localStorage.setItem("teachers", JSON.stringify(updated))
-                localStorage.setItem("logedInTeacher", JSON.stringify(newTeacher))
-                localStorage.removeItem("logedInStudent")
-                increase()
+                increase(2)
             }
+            //  else {
+            //     const newTeacher = { ...values, teacherId: teachers.length }
+            //     const updated = [...teachers, newTeacher]
+            //     localStorage.setItem("teachers", JSON.stringify(updated))
+            //     localStorage.setItem("logedInTeacher", JSON.stringify(newTeacher))
+            //     localStorage.removeItem("logedInStudent")
+            //     increase()
+            // }
         } else if (values.designation == "Student") {
             if (findExistingStudent) {
                 localStorage.setItem("logedInStudent", JSON.stringify(findExistingStudent))
                 localStorage.removeItem("logedInTeacher")
                 increase()
             } else {
-                const newStudent = { ...values, teacherId: teachers.length }
-                const updated = [...students, newStudent]
-                localStorage.setItem("students", JSON.stringify(updated))
-                localStorage.setItem("logedInStudent", JSON.stringify(newStudent))
                 localStorage.removeItem("logedInTeacher")
                 increase()
             }

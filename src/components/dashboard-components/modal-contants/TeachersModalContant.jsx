@@ -5,28 +5,56 @@ import LightBgText from '../../subComponents/LightBgText';
 const TeachersModalContant = ({ ...props }) => {
 
     const getInd = props?.teachers.find((_, ind) => ind == props?.indexForEditTeacher);
+    // console.log("🚀 ~ TeachersModalContant ~ getInd:", getInd)
     const formValidityForEdit = props?.indexForEditTeacher !== null && props?.indexForEditTeacher !== undefined;
 
-    if (props?.indexForEditTeacher) {
-        console.log("🚀 ~ TeachersModalContant ~ indexForEditTeacher:", props?.teachers[props?.indexForEditTeacher].name)
+    const teachers = JSON.parse(localStorage.getItem('teachers')) || []
+    console.log("🚀 ~ TeachersModalContant ~ teachers:", teachers?.length)
+    const loggedInTeacher = JSON.parse(localStorage.getItem("logedInTeacher"))
+
+    const subjectsArray = ['english', 'urdu', 'math', 'science', 'computer', 'commerce', 'physics', 'chemistry']
+    const [selectedSubjectsArray, setSelectedSubjectsArray] = useState([])
+
+    useEffect(() => {
+        if (formValidityForEdit && getInd?.subject?.length) {
+            setSelectedSubjectsArray(getInd.subject);
+        }
+    }, [formValidityForEdit, getInd]);
+
+    const handleAdd = (ind) => {
+        const newSub = subjectsArray[ind]
+
+        setSelectedSubjectsArray((prev) => {
+            let updated;
+            if (prev?.includes(newSub)) {
+                updated = prev.filter(sub => sub !== newSub)
+            } else {
+                if (prev.length >= 5) return prev;
+                updated = [...prev, newSub]
+            }
+            setTeachersFormData((prev) => ({
+                ...prev,
+                subject: updated
+            }))
+            return updated;
+        }
+        )
     }
 
     useEffect(() => {
-        console.log('props?.teachers :', props?.teachers.length)
+        // console.log('props?.teachers :', props?.teachers.length)
     }, [props?.teachers])
 
     const [teachersFormData, setTeachersFormData] = useState(
         {
-            desination: formValidityForEdit ? getInd.desination : "",
+            desination: "teacher",
             name: formValidityForEdit ? getInd.name : "",
             email: formValidityForEdit ? getInd.email : "",
-            password: formValidityForEdit ? getInd.password : "",
-            phoneNumber: formValidityForEdit ? getInd.phoneNumber : "",
             gender: formValidityForEdit ? getInd.gender : "",
-            class: formValidityForEdit ? getInd.class : "",
-            subject: formValidityForEdit ? getInd.subject : "",
+            subject: formValidityForEdit ? getInd.subject : [],
+            seats: formValidityForEdit ? getInd.seats : [],
             age: formValidityForEdit ? getInd.age : "",
-            teacherId: formValidityForEdit ? getInd.teacherId : props?.teachers.length
+            teacherId: formValidityForEdit ? getInd.teacherId : "",
         }
     )
 
@@ -43,6 +71,7 @@ const TeachersModalContant = ({ ...props }) => {
             {
                 ...teachersFormData,
                 [name]: value,
+                teacherId: teachers?.length + 1
             }
         )
     }
@@ -57,20 +86,31 @@ const TeachersModalContant = ({ ...props }) => {
             const updatedTeachers = [...props.teachers, teachersFormData];
             props.setTeachers(updatedTeachers);
             localStorage.setItem('teachers', JSON.stringify(updatedTeachers));
+
         }
 
         setTeachersFormData({
-            desination: "",
+            desination: "teacher",
             name: "",
             email: "",
-            password: "",
-            phoneNumber: '',
             gender: "",
-            class: "",
-            subject: ""
+            subject: [],
+            seats: []
         })
         props.setIsOpen(false)
 
+        const updatedTeacher = {
+            ...loggedInTeacher,
+            subjects: selectedSubjectsArray,
+            seats: []
+        }
+
+        // const updatedTeacherList = [...allLoggedInTeachers, updatedTeacher]
+
+        localStorage.setItem("logedInTeacher", JSON.stringify(updatedTeacher))
+        // localStorage.setItem("allLoggedInTeachers", JSON.stringify(updatedTeacherList))
+
+        setSelectedSubjectsArray([])
     }
 
     const checkValidity = teachersFormData.desination === '' ||
@@ -105,70 +145,44 @@ const TeachersModalContant = ({ ...props }) => {
                     <input type="text" name='name' onChange={handleChange} placeholder='Enter Your Name...' value={teachersFormData.name} className='px-2 text-[#000000] h-10 w-18/20 rounded-[5px] border-[2px]  border-[#bcbaba]' />
                 </div>
                 {/* email-class or gender div */}
-                <div className="flex mt-5 ">
-                    <div className="w-full flex gap-10 items-end ">
-                        <div className=" w-8/20  ">
-                            <p className='text-[14px] text-[#000000] font-semibold ' >Email Address</p>
-                            <input type="text" name='email' onChange={handleChange} placeholder='Enter Your Email... ' value={teachersFormData.email} className='px-2 text-[#000000] h-10 w-full rounded-[5px] border-[2px] border-[#bcbaba] ' />
-                        </div>
-                        {/* class */}
-                        <div className="h-10 w-5/20 flex items-center rounded-[5px] border-[2px]  border-[#bcbaba] ">
-                            <select className='h-full px-2 py-1 text-[16px] text-[#000000] rounded-[5px] outline-none '
-                                // id="class" name="class">
-                                id="class" onChange={handleChange} value={teachersFormData.class} name="class">
-                                <option className='text-[16px] text-[black] ' value="" disabled>class</option>
-                                <option className='text-[16px] text-[black] ' >J SS 1</option>
-                                <option className='text-[16px] text-[black] ' >J SS 2</option>
-                                <option className='text-[16px] text-[black] ' >J SS 3</option>
-                                <option className='text-[16px] text-[black] ' >J SS 4</option>
-                                <option className='text-[16px] text-[black] ' >J SS 5</option>
-                            </select>
-                        </div>
-                        {/* gender */}
-                        <div className="h-10 w-14/100 rounded-[5px] border-[2px]  border-[#bcbaba] ">
-                            <select className='h-full px-2 py-1 text-[16px] text-[#000000] rounded-[5px] outline-none '
-                                id="gender" onChange={handleChange} value={teachersFormData.gender} name="gender">
-                                <option className='text-[16px] text-[black] ' value="" disabled>Gender</option>
-                                <option className='text-[16px] text-[black] '>Male</option>
-                                <option className='text-[16px] text-[black] '>Female</option>
-                                <option className='text-[16px] text-[black] '>Costom</option>
-                            </select>
-                        </div>
+                <div className=" w-full mt-5 flex gap-10 items-end ">
+                    {/* <div className=""> */}
+                    <div className=" w-8/20  ">
+                        <p className='text-[14px] text-[#000000] font-semibold ' >Email Address</p>
+                        <input type="text" name='email' onChange={handleChange} placeholder='Enter Your Email... ' value={teachersFormData.email} className='px-2 text-[#000000] h-10 w-full rounded-[5px] border-[2px] border-[#bcbaba] ' />
                     </div>
-                </div>
-                {/* email-class or gender div */}
-                <div className="flex mt-5 ">
-                    <div className="w-full flex items-end gap-10 ">
-                        <div className=" w-8/20 ">
-                            <p className='text-[14px] text-[#000000] font-semibold ' >Password</p>
-                            <input type="text" name='password' onChange={handleChange} placeholder='Enter Your Password... ' value={teachersFormData.password} className='px-2 text-[#000000] h-10 w-full rounded-[5px] border-[2px] border-[#bcbaba] ' />
-                        </div>
-                        <div className=" w-9/20 ">
-                            <p className='text-[14px] text-[#000000] font-semibold ' >Phone Number</p>
-                            <input type="number" name='phoneNumber' onChange={handleChange} placeholder='Enter Your Phone number... ' value={teachersFormData.phoneNumber} className='px-2 text-[#000000] h-10 w-full rounded-[5px] border-[2px] border-[#bcbaba] ' />
-                        </div>
-                    </div>
-                </div>
-                {/* subject */}
-                <div className="mt-5 h-15 flex items-end gap-10 rounded-[5px] ">
-                    <div className=" h-10 border-[2px] rounded-[5px] border-[#bcbaba] w-8/20 ">
-                        <select className='h-full w-1/1 px-2 py-1 text-[16px] text-[#000000] rounded-[5px] outline-none '
-                            id="subject" onChange={handleChange} value={teachersFormData.subject} name="subject">
-                            <option className='text-[16px] text-[black] ' value="" disabled>Subject</option>
-                            <option className='text-[16px] text-[black] ' >Math</option>
-                            <option className='text-[16px] text-[black] ' >Physics</option>
-                            <option className='text-[16px] text-[black] ' >Chemistry</option>
+                    {/* gender */}
+                    <div className="h-10 w-20/100 rounded-[5px] border-[2px]  border-[#bcbaba] ">
+                        <select className='h-full px-2 py-1 text-[16px] text-[#000000] rounded-[5px] outline-none '
+                            id="gender" onChange={handleChange} value={teachersFormData.gender} name="gender">
+                            <option className='text-[16px] text-[black] ' value="" disabled>Gender</option>
+                            <option className='text-[16px] text-[black] '>Male</option>
+                            <option className='text-[16px] text-[black] '>Female</option>
+                            <option className='text-[16px] text-[black] '>Costom</option>
                         </select>
                     </div>
-                    {/* desination */}
-                    <div className=" w-5/20 ">
-                        <p className='text-[14px] text-[#000000] font-semibold ' >Desination </p>
-                        <input type="text" onChange={handleChange} placeholder='Enter Your Desination' value={teachersFormData.desination} name='desination' className='px-2 text-[#000000] h-10 w-1/1 rounded-[5px] border-[2px] border-[#bcbaba] ' />
-                    </div>
+                    {/* class */}
                     {/* age */}
                     <div className=" w-3/20 ">
                         <p className='text-[14px] text-[#000000] font-semibold ' >Age </p>
                         <input type="number" onChange={handleChange} value={teachersFormData.age} placeholder='Age' name='age' className='px-2 text-[#000000] h-10 w-1/1 rounded-[5px] border-[2px] border-[#bcbaba] ' />
+                    </div>
+                    {/* </div> */}
+                </div>
+                {/* subject */}
+                <div className="mt-5 h-35 flex items-end gap-10 overflow-hidden rounded-[5px] ">
+                    <div className="h-35 w-180 flex flex-col gap-2 ">
+                        <p className='text-[25px] text-center font-semibold '>Select subjects</p>
+                        <div className="min-h-15 w-full ">
+                            <div className="h-1/1 w-full flex flex-wrap justify-center gap-3 px-3 py-3 ">
+                                {subjectsArray.map((data, ind) => (
+                                    <div key={ind} onClick={() => handleAdd(ind)} className={`duration-200 transition-all ease-in h-8 px-3 flex justify-center items-center
+                                  ${selectedSubjectsArray?.includes(data) ? ' bg-[#444444] text-[#d0d0d0]' : ' bg-[#c4c4c4] text-[#626262]'}  hover:scale-[1.1] 
+                                 form-shadow rounded-[20px] `} >{data}</div>
+                                ))
+                                }
+                            </div>
+                        </div>
                     </div>
                 </div>
                 {/* add another teacher btn */}

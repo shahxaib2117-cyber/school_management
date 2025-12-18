@@ -19,9 +19,6 @@ const StudentDashboard = () => {
     console.log("🚀 ~ StudentDashboard ~ clas:", clas)
 
     const filteredTable = timeTable.filter((data) => (data.clas == clas))
-    for (let i = 0; i < timeTable.length; i++) {
-    //    console.log(timeTable[i].timings[0].subject) 
-    }
 
     const handleLogout = () => {
         logout()

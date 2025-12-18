@@ -12,10 +12,12 @@ import Teachers from './components/dashboard-components/pages/Teachers'
 import Students from './components/dashboard-components/pages/Students'
 import Billing from './components/dashboard-components/pages/Billing'
 import Profile from './components/dashboard-components/pages/Profile'
-import Exams from './components/dashboard-components/pages/Exams'
 import Features from './components/dashboard-components/pages/Features'
 import AdminDashboard from './components/dashboard-components/pages/AdminDashboard'
 import Attandence from './components/dashboard-components/features/attandenceComponants/Attandence'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Assingments from './components/dashboard-components/pages/Assignmints'
 
 function App() {
   const { isAuthenticated } = useAuth()
@@ -24,35 +26,37 @@ function App() {
   }, [isAuthenticated])
 
   return (
-    <Routes>
-      {/* Home always open at "/" */}
-      <Route path="/" element={!isAuthenticated ? <Home /> : <Navigate replace to="/desktop" />} />
+    <>
+    <ToastContainer  position="bottom-right" autoClose={2000} hideProgressBar={false} />
+      <Routes>
+        {/* Home always open at "/" */}
+        <Route path="/" element={!isAuthenticated ? <Home /> : <Navigate replace to="/desktop" />} />
 
-      {/* Login route */}
-      <Route
-        path="/login"
-        element={isAuthenticated ? <Navigate replace to="/desktop" /> : <Login />}
-      />
+        {/* Login route */}
+        <Route
+          path="/login"
+          element={isAuthenticated ? <Navigate replace to="/desktop" /> : <Login />}
+        />
+        {/* Desktop (Protected route) */}
+        <Route
+          path="/desktop"
+          element={isAuthenticated ? <Desktop /> : <Navigate replace to="/" />}
+        >
+          <Route index element={<Desktop_Link_1 />} />
+          <Route path="adminDashboard" element={<AdminDashboard />} />
+          <Route path="teacher" element={<Teachers />} />
+          <Route path="students" element={<Students />} />
+          <Route path="billing" element={<Billing />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="assingments" element={<Assingments />} />
+          <Route path="attendance" element={<Attandence />} />
+          <Route path="features" element={<Features />} />
+        </Route>
 
-      {/* Desktop (Protected route) */}
-      <Route
-        path="/desktop"
-        element={isAuthenticated ? <Desktop /> : <Navigate replace to="/" />}
-      >
-        <Route index element={<Desktop_Link_1 />} />
-        <Route path="adminDashboard" element={<AdminDashboard />} />
-        <Route path="teacher" element={<Teachers />} />
-        <Route path="students" element={<Students />} />
-        <Route path="billing" element={<Billing />} />
-        <Route path="profile" element={<Profile />} />
-        <Route path="exams" element={<Exams />} />
-        <Route path="attendance" element={<Attandence />} />
-        <Route path="features" element={<Features />} />
-      </Route>
-
-      {/* Catch-all redirect */}
-      <Route path="*" element={<Navigate to="/" />} />
-    </Routes>
+        {/* Catch-all redirect */}
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </>
   )
 }
 

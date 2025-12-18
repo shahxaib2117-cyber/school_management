@@ -12,6 +12,7 @@ import StudentDetails from '../details/StudentDetails';
 import { createPortal } from 'react-dom';
 import StudentDashboard from '../dashboardsForLoggedInPersons/StudentDashboard';
 
+
 const Students = () => {
 
   const { isAuthenticated, login, logout } = useAuth()
@@ -21,10 +22,12 @@ const Students = () => {
   const [logedInTeacher, setLogedInTeacher] = useState({})
   const loggedInStudent = JSON.parse(localStorage.getItem("logedInStudent") || "{}")
   const isStudentLoggedIn = loggedInStudent?.name != null
+
   const handleLogout = () => {
     logout()
     localStorage.removeItem("logedInTeacher")
   }
+
   // Load from localStorage on mount
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem('students') || "[]");
@@ -47,16 +50,16 @@ const Students = () => {
   const teachersFromSameClass = teachers.filter((dat) => dat?.teacherId == studentDetails?.teacherId)
   const studentsOfCurrentTeacher = students.filter((dat, ind) => dat.teacherId == logedInTeacher?.teacherId)
 
+
   useEffect(() => {
     if (studentDetails != null) {
       setOpenStudentDetails(true)
     }
   }, [studentDetails])
 
-  const empty = studentsOfCurrentTeacher?.length === 0 ;
+  const empty = studentsOfCurrentTeacher?.length === 0;
   // delete student modal
   const openDeleteModal = (ind) => {
-    console.log('index for delete', ind)
     setIsOpenDeleteMadal(true)
     setIndexForDeleteStudent(ind)
   }
@@ -71,7 +74,6 @@ const Students = () => {
 
     setStudents(updatedStudents);
     localStorage.setItem('students', JSON.stringify(updatedStudents));
-    // console.log("🚀 ~ deleteStudent ~ updated:", updatedStudents)
     setIsOpenDeleteMadal(false)
   };
 
@@ -85,7 +87,7 @@ const Students = () => {
   // edit student
   const editStudent = (index) => {
     // const targetStudent = studentsOfCurrentTeacher[index] || students[index];
-    console.log('index for edit', index)
+    // console.log('index for edit', index)
     setIndexForEdit(index)
     setIsOpen(true)
   };
@@ -140,7 +142,7 @@ const Students = () => {
                 className='  !py-3 px-6 rounded-[5px] !bg-[#e6eaeb] !text-[#2778ce]
                      flex justify-center items-center whitespace-nowrap font-semibold ' />
               {/* btn--2 */}
-              <LightBgText lable='Add students ' onClick={() => setIsOpen(true)}
+              <LightBgText lable='Add students ' onClick={() => { setIsOpen(true)}}
                 className=' !py-3  px-6 rounded-[5px] !bg-[#3687de] !text-[#ffffff] 
                     flex justify-center items-center whitespace-nowrap font-semibold ' />
             </div> : <div className=""></div>
@@ -170,7 +172,7 @@ const Students = () => {
                   className=' py-2 px-6 rounded-[5px] !bg-[#e6eaeb] !text-[#2778ce]
              flex justify-center items-center whitespace-nowrap font-semibold ' />
                 {/* btn--2 */}
-                <LightBgText lable='Add students ' onClick={() => setIsOpen(true)}
+                <LightBgText lable='Add students ' onClick={() => {setIsOpen(true), notifySuccess()}}
                   className=' py-2 px-6 rounded-[5px] !bg-[#3687de] !text-[#ffffff] 
             flex justify-center items-center whitespace-nowrap font-semibold ' />
               </div>
@@ -272,8 +274,8 @@ const Students = () => {
         } */}
 
         </div>
-      </div>) : <StudentDashboard/>
-      }
+      </div>) : <StudentDashboard />
+    }
     </>
   )
 }
