@@ -44,6 +44,10 @@ const Sidebar = () => {
             nevigate: "/desktop/exams",
             text: 'Exams'
         }, {
+            icon: <PiRankingLight className='text-white text-[20px] '/>,
+            nevigate: "/desktop/attendance",
+            text: 'Attendance'
+        }, {
             icon: <HiOutlineLibrary className='text-white text-[20px] '/>,
             nevigate: "/desktop/features",
             new_btn: 'NEW',
@@ -77,15 +81,15 @@ const Sidebar = () => {
                 {links_array.map((data, ind) => (
                     <NavLink key={ind} to={data.nevigate}>
                         <div className={`flex items-center cursor-pointer rounded-[5px] transition-all duration-[300ms]
-                        ${!isAdmin && ind == 7 ? `mt-34` : ``} ${isAdmin && ind == 7 ? `mt-23` : ``}
-                        ${!isAdmin && ind == 1 ? 'hidden' : ''}
+                        ${!isAdmin && ind == 8 ? `mt-23` : ``} ${isAdmin && ind == 8 ? `mt-21` : ``}
+                        ${!isAdmin && ind == 1 ? 'hidden' : ''} ${isAdmin && ind == 7 ? `hidden` : ``}
                         ${currentPath === data.nevigate ? `bg-[#509CDB]` : `` } px-2 py-2 gap-2  `}>
                             {/* icon */}
                             <div className="h-5 w-5 flex justify-center items-center ">
                                 {data.icon}
                             </div>
                             {/* text */}
-                            {ind == 7 ?
+                            {ind == 8 ?
                                 <p className='text-[16px] text-white flex gap-5 font-semibold ' >
                                     Features
                                     <span className='flex justify-center items-center text-black text-[12px] px-4 rounded-[20px] bg-[#9cc8e3] '>

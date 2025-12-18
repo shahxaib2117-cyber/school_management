@@ -5,7 +5,7 @@ const Exams = ({ size = 8 }) => {
   
 
   return (
-    <div className="min-h-screen w-full bg-[#2c2c2c] flex flex-wrap gap-1 justify-center items-center overflow-scroll ">
+    <div className="container w-full bg-[#2c2c2c] flex flex-wrap gap-1 justify-center items-center overflow-scroll ">
         <button className='button transition-all duration-100 ease-in font-semibold text-[#1c1c1c00] hover:scale-[0.97] '>
           Click!
         </button>

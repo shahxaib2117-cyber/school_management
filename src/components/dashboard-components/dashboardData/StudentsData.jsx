@@ -17,7 +17,7 @@ const StudentsData = (props) => {
         logedInTeacher } = props
 
     const loggedStudent = JSON.parse(localStorage.getItem("logedInStudent" || '{}'))
-
+    const logedInTeachar = JSON.parse(localStorage.getItem("logedInTeacher") || "{}");
     const handleClick = (ind) => {
         const seclectStudent = students[ind];
         if (studentDetails !== seclectStudent) {
@@ -35,7 +35,8 @@ const StudentsData = (props) => {
     const [pageNum, setPageNum] = useState(0)
 
     // getting Students Of Logined Teacher
-    const getStudentsOfLoginedTeacher = students?.filter((data) => (data?.teacherId == logedInTeacher?.teacherId)) || students
+    const filterstudentsOfCurrentTeachered = students?.filter((data, ind) => data?.class?.toLowerCase() == logedInTeachar?.schoolClass)
+    const getStudentsOfLoginedTeacher = filterstudentsOfCurrentTeachered || students
     console.log("🚀 ~ StudentsData ~ getStudentsOfLoginedTeacher:", getStudentsOfLoginedTeacher)
     const finalNum = pageNum * 8
     const selectedArrayForMap = getStudentsOfLoginedTeacher?.slice(finalNum, finalNum + 8)

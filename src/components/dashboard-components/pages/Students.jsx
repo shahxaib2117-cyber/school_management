@@ -188,11 +188,11 @@ const Students = () => {
               <select onChange={handleFilterChange} value={filterValue}
                 className='px-5 text-[15px] rounded-[5px] bg-[#e7eaeee5] outline-none' id="filter" name="filter">
                 <option className=' text-[black] ' value="">Add filter</option>
-                <option className='text-[16px] text-[black] ' >J SS 1</option>
-                <option className='text-[16px] text-[black] ' >J SS 2</option>
-                <option className='text-[16px] text-[black] ' >J SS 3</option>
-                <option className='text-[16px] text-[black] ' >J SS 4</option>
-                <option className='text-[16px] text-[black] ' >J SS 5</option>
+                <option className='text-[16px] text-[black] ' >Jss1</option>
+                <option className='text-[16px] text-[black] ' >Jss2</option>
+                <option className='text-[16px] text-[black] ' >Jss3</option>
+                <option className='text-[16px] text-[black] ' >Jss4</option>
+                <option className='text-[16px] text-[black] ' >Jss5</option>
                 <option className=' text-[black] ' value="">Remove filter</option>
 
               </select>

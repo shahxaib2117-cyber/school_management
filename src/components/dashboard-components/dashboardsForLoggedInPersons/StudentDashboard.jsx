@@ -80,9 +80,9 @@ const StudentDashboard = () => {
                         <div className="blue_bg_effect h-50 w-50 flex justify-center items-center rounded-full">
                             <div className="h-45 w-45 overflow-hidden rounded-full ">
                                 {gender == "Male" ?
-                                    <img src="/dashboard-imgs/avatar_boy_student.PNG" alt="" />
+                                    <img src="/dashboard-imgs/avatar_boy_student.PNG" alt="dashboard-img/avatar_boy_student" />
                                     :
-                                    <img src="/dashboard-imgs/avatar_girl_student.PNG" alt="" />
+                                    <img src="/dashboard-imgs/avatar_girl_student.PNG" alt="dashboard-img/avatar_boy_student" />
                                 }
                             </div>
                         </div>

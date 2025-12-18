@@ -14,11 +14,9 @@ const StudentsModalContant = ({ ...props }) => {
     console.log("🚀 ~ StudentsModalContant ~ get_ind:", get_ind)
 
         useEffect(() => {
-            // console.log('teachers :', teachers.length)
         }, [teachers])
     var randomIdGenrater = Math.floor(Date.now() * (Math.random() * 0.00000001))
     const rareId = crypto.randomUUID()
-    // console.log("🚀 ~ StudentsModalContant ~ rareId:", rareId)
     
     const [randomNumber, setRandomNumber] = useState(randomIdGenrater)
 
@@ -79,14 +77,13 @@ const StudentsModalContant = ({ ...props }) => {
             studentId: randomNumber,
             age: "",
             image: "",
-            teacherId:logedInTeacher.teacherId
-
+            teacherId:logedInTeacher.teacherId,
+            studentAttendance:"absent"
         })
         props.setIsOpen(false)
     }
 
-    const checkValidity = studentsFormData.gender === '' ||
-        studentsFormData.class === '';
+    const checkValidity = studentsFormData.gender === '' || studentsFormData.class === '';
 
     return (
         <div className=''>
@@ -135,11 +132,11 @@ const StudentsModalContant = ({ ...props }) => {
                                 // id="class" name="class">
                                 id="class" onChange={handleChange} value={studentsFormData.class} name="class">
                                 <option className='text-[16px] text-[black] ' value="" disabled>class</option>
-                                <option className='text-[16px] text-[black] ' >J SS 1</option>
-                                <option className='text-[16px] text-[black] ' >J SS 2</option>
-                                <option className='text-[16px] text-[black] ' >J SS 3</option>
-                                <option className='text-[16px] text-[black] ' >J SS 4</option>
-                                <option className='text-[16px] text-[black] ' >J SS 5</option>
+                                <option className='text-[16px] text-[black] ' >Jss1</option>
+                                <option className='text-[16px] text-[black] ' >Jss2</option>
+                                <option className='text-[16px] text-[black] ' >Jss3</option>
+                                <option className='text-[16px] text-[black] ' >Jss4</option>
+                                <option className='text-[16px] text-[black] ' >Jss5</option>
                             </select>
                         </div>
                         {/* gender */}

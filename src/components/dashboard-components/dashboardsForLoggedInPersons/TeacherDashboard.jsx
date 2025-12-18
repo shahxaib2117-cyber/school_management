@@ -4,6 +4,7 @@ import { PiBellThin } from 'react-icons/pi';
 import LightBgText from '../../subComponents/LightBgText';
 import { MdOutlineDelete } from 'react-icons/md';
 import Modal from '../../commons/Modal';
+import { NavLink, Outlet } from 'react-router-dom';
 
 const TeacherDashboard = () => {
 
@@ -25,7 +26,7 @@ const TeacherDashboard = () => {
         data.timings.some((t) => (t.subject?.toLowerCase() == 'math'))
     ))
 
-    const rotated = [...find_subjects.slice(firstClass-1), ...find_subjects.slice(0, firstClass-1)];
+    const rotated = [...find_subjects.slice(firstClass - 1), ...find_subjects.slice(0, firstClass - 1)];
 
     const breake = {
         break: 'Break',
@@ -228,11 +229,11 @@ const TeacherDashboard = () => {
                     <div style={{ gridColumn: 'span 1', gridRow: 'span 2' }} className=" flex flex-col gap-1 ">
                         <p className='text-[18px] font-semibold text-[#94a4d2]'>Un-paid Feeses</p>
                         <div className="w-1/1 h-20 flex items-center overflow-x-scroll px-2 ">
-                            <div className="blue_bg_effect py-2 min-w-30 text-[17px] font-semibold text-[#94a4d2] px-2 rounded-[5px] hover:scale-[1.05] transition-all duration-200 ease-in ">
-                                {/* <p className=''> */}
-                                Addmission Fees
-                                {/* </p> */}
-                            </div>
+                            <NavLink to={'/desktop/attendance'}>
+                                <div className="blue_bg_effect py-2 min-w-30 text-[17px] font-semibold text-[#94a4d2] px-2 rounded-[5px] hover:scale-[1.05] transition-all duration-200 ease-in ">
+                                    Addmission Fees
+                                </div>
+                            </NavLink>
                         </div>
                     </div>
                 </div>

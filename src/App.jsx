@@ -15,9 +15,10 @@ import Profile from './components/dashboard-components/pages/Profile'
 import Exams from './components/dashboard-components/pages/Exams'
 import Features from './components/dashboard-components/pages/Features'
 import AdminDashboard from './components/dashboard-components/pages/AdminDashboard'
+import Attandence from './components/dashboard-components/features/attandenceComponants/Attandence'
 
-function App() {   
-   const { isAuthenticated } = useAuth()
+function App() {
+  const { isAuthenticated } = useAuth()
   useEffect(() => {
 
   }, [isAuthenticated])
@@ -36,7 +37,7 @@ function App() {
       {/* Desktop (Protected route) */}
       <Route
         path="/desktop"
-        element={isAuthenticated ? <Desktop /> : <Navigate replace to="/" /> }
+        element={isAuthenticated ? <Desktop /> : <Navigate replace to="/" />}
       >
         <Route index element={<Desktop_Link_1 />} />
         <Route path="adminDashboard" element={<AdminDashboard />} />
@@ -45,6 +46,7 @@ function App() {
         <Route path="billing" element={<Billing />} />
         <Route path="profile" element={<Profile />} />
         <Route path="exams" element={<Exams />} />
+        <Route path="attendance" element={<Attandence />} />
         <Route path="features" element={<Features />} />
       </Route>
 
