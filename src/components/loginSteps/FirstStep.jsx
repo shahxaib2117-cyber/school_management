@@ -33,14 +33,14 @@ const FirstStep = ({ increase }) => {
                 localStorage.removeItem("logedInStudent")
                 increase(2)
             }
-            //  else {
-            //     const newTeacher = { ...values, teacherId: teachers.length }
-            //     const updated = [...teachers, newTeacher]
-            //     localStorage.setItem("teachers", JSON.stringify(updated))
-            //     localStorage.setItem("logedInTeacher", JSON.stringify(newTeacher))
-            //     localStorage.removeItem("logedInStudent")
-            //     increase()
-            // }
+            else {
+                const newTeacher = { ...values, teacherId: teachers.length }
+                const updated = [...teachers, newTeacher]
+                localStorage.setItem("teachers", JSON.stringify(updated))
+                localStorage.setItem("logedInTeacher", JSON.stringify(newTeacher))
+                localStorage.removeItem("logedInStudent")
+                increase()
+            }
         } else if (values.designation == "Student") {
             if (findExistingStudent) {
                 localStorage.setItem("logedInStudent", JSON.stringify(findExistingStudent))
